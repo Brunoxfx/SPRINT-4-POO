@@ -54,3 +54,13 @@ metodo, URL, corpo enviado, status, Location e resposta recebida.
 - [Colecao e instrucoes de execucao](postman/README.md).
 
 A porta 18084 foi usada somente nesta validacao; a configuracao padrao continua em 8080.
+
+## Execucao manual no Postman
+
+Em 23/10/2026, as 43 requisicoes da colecao tambem foram enviadas uma a uma no aplicativo Postman, com a API na
+porta padrao 8080 conectada ao Oracle FIAP. Todos os testes da colecao passaram. O relatorio gerado nessa execucao
+(ID 5) classificou 2 trechos em cada prioridade. Depois das exclusoes, a API listou 2 equipes, 4 trechos,
+3 intervencoes e 4 relatorios, ou seja, os dados da Sprint 3 mais o historico de relatorios.
+
+As capturas de tela do Postman estao listadas na secao "Prints do Postman (Oracle FIAP)" do README
+e salvas como `docs/prints/*-postman*.png`.
