@@ -359,6 +359,29 @@ Exemplo de resposta do `POST /api/relatorios`:
 
 Os prints das requisições executadas contra o Oracle FIAP ficam em [`docs/prints/`](docs/prints/).
 
+### Prints do Postman (Oracle FIAP)
+
+Coleção [`docs/postman/motiva-sprint4.postman_collection.json`](docs/postman/motiva-sprint4.postman_collection.json)
+executada no aplicativo Postman em 23/10/2026, com a API em `http://localhost:8080` conectada ao Oracle FIAP
+(schema da Sprint 3). As 43 requisições foram enviadas em ordem, todas com os testes da coleção aprovados.
+
+| Nº | Requisição | Método e rota | Status | Print |
+|---|---|---|---|---|
+| 01 | Criar equipe | `POST /api/equipes` | 201 | [01-postman.png](docs/prints/01-postman.png) |
+| 02 | Criar trecho urgente | `POST /api/trechos` | 201 | [02-postman.png](docs/prints/02-postman.png) |
+| 09 | Listar trechos | `GET /api/trechos` | 200 | [09-postman.png](docs/prints/09-postman.png) ([b](docs/prints/09-postman-b.png), [c](docs/prints/09-postman-c.png), [d](docs/prints/09-postman-d.png)) |
+| 15 | Atualizar equipe | `PUT /api/equipes/{id}` | 200 | [15-postman.png](docs/prints/15-postman.png) |
+| 17 | Criar intervenção | `POST /api/intervencoes` | 201 | [17-postman.png](docs/prints/17-postman.png) |
+| 24 | Gerar relatório | `POST /api/relatorios` | 201 | [24-postman.png](docs/prints/24-postman.png) ([b](docs/prints/24-postman-b.png), [c](docs/prints/24-postman-c.png)) |
+| 27 | Consultar período | `GET /api/relatorios/periodo` | 200 | [27-postman.png](docs/prints/27-postman.png) |
+| 29 | Erro: altura negativa | `POST /api/trechos` | 400 | [29-postman.png](docs/prints/29-postman.png) |
+| 34 | Excluir intervenção | `DELETE /api/intervencoes/{id}` | 204 | [34-postman.png](docs/prints/34-postman.png) |
+| 35 | Erro: intervenção excluída | `GET /api/intervencoes/{id}` | 404 | [35-postman.png](docs/prints/35-postman.png) |
+
+O relatório gerado (ID 5) classificou os 8 trechos do banco em 2 urgentes, 2 críticos, 2 em atenção e 2 normais.
+Ao final, as exclusões da coleção devolveram o banco ao estado original da Sprint 3 (2 equipes, 4 trechos e
+3 intervenções); os relatórios permanecem no histórico.
+
 Validação em 23/10/2026: **43 requisições e 62 verificações passaram no Oracle FIAP**, com dez prints e
 registro HTTP completo. O relatório também foi consultado após reiniciar a API, confirmando a persistência.
 Veja os [resultados e as evidências da validação Oracle](docs/validacao-oracle.md).
