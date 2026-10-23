@@ -16,11 +16,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import jakarta.validation.Valid;
+
 import br.com.motiva.dto.IntervencaoOperacionalRequest;
 import br.com.motiva.dto.IntervencaoOperacionalResponse;
 import br.com.motiva.model.IntervencaoOperacional;
 import br.com.motiva.service.IntervencaoOperacionalService;
-import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/intervencoes")
@@ -57,8 +58,8 @@ public class IntervencaoOperacionalController {
 
     @PostMapping
     public ResponseEntity<IntervencaoOperacionalResponse> cadastrar(
-            @Valid @RequestBody IntervencaoOperacionalRequest request) {
-        IntervencaoOperacional intervencao = this.intervencaoService.cadastrar(request);
+            @Valid @RequestBody IntervencaoOperacionalRequest requisicao) {
+        IntervencaoOperacional intervencao = this.intervencaoService.cadastrar(requisicao);
         URI localizacao = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(intervencao.getId())
@@ -68,8 +69,8 @@ public class IntervencaoOperacionalController {
 
     @PutMapping("/{id}")
     public ResponseEntity<IntervencaoOperacionalResponse> atualizar(@PathVariable Long id,
-            @Valid @RequestBody IntervencaoOperacionalRequest request) {
-        IntervencaoOperacional intervencao = this.intervencaoService.atualizar(id, request);
+            @Valid @RequestBody IntervencaoOperacionalRequest requisicao) {
+        IntervencaoOperacional intervencao = this.intervencaoService.atualizar(id, requisicao);
         return ResponseEntity.ok(IntervencaoOperacionalResponse.de(intervencao));
     }
 

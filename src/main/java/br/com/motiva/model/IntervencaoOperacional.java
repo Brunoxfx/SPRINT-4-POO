@@ -71,9 +71,4 @@ public class IntervencaoOperacional {
     public void setEquipeManutencao(EquipeManutencao equipeManutencao) {
         this.equipeManutencao = equipeManutencao;
     }
-
-    public static boolean isTipoValido(String tipo) {
-        return TIPO_ROCADA_MANUAL.equals(tipo) || TIPO_ROCADA_MECANIZADA.equals(tipo)
-                || TIPO_PULVERIZACAO.equals(tipo);
-    }
 }

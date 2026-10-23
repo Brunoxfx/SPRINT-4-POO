@@ -49,8 +49,8 @@ public class EquipeManutencaoController {
     }
 
     @PostMapping
-    public ResponseEntity<EquipeManutencaoResponse> cadastrar(@Valid @RequestBody EquipeManutencaoRequest request) {
-        EquipeManutencao equipe = this.equipeService.cadastrar(request);
+    public ResponseEntity<EquipeManutencaoResponse> cadastrar(@Valid @RequestBody EquipeManutencaoRequest requisicao) {
+        EquipeManutencao equipe = this.equipeService.cadastrar(requisicao);
         URI localizacao = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(equipe.getId()).toUri();
         return ResponseEntity.created(localizacao).body(EquipeManutencaoResponse.de(equipe));
@@ -58,8 +58,8 @@ public class EquipeManutencaoController {
 
     @PutMapping("/{id}")
     public ResponseEntity<EquipeManutencaoResponse> atualizar(@PathVariable Long id,
-            @Valid @RequestBody EquipeManutencaoRequest request) {
-        return ResponseEntity.ok(EquipeManutencaoResponse.de(this.equipeService.atualizar(id, request)));
+            @Valid @RequestBody EquipeManutencaoRequest requisicao) {
+        return ResponseEntity.ok(EquipeManutencaoResponse.de(this.equipeService.atualizar(id, requisicao)));
     }
 
     @DeleteMapping("/{id}")

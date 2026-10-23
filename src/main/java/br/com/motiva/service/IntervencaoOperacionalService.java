@@ -1,6 +1,7 @@
 package br.com.motiva.service;
 
 import java.util.List;
+import java.util.Locale;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -56,20 +57,20 @@ public class IntervencaoOperacionalService {
     }
 
     @Transactional
-    public IntervencaoOperacional cadastrar(IntervencaoOperacionalRequest request) {
-        String tipo = this.normalizarTipo(request.tipo());
-        TrechoRodovia trecho = this.buscarTrecho(request.trechoId());
-        EquipeManutencao equipe = this.buscarEquipeOpcional(request.equipeId());
+    public IntervencaoOperacional cadastrar(IntervencaoOperacionalRequest requisicao) {
+        String tipo = this.normalizarTipo(requisicao.tipo());
+        TrechoRodovia trecho = this.buscarTrecho(requisicao.trechoId());
+        EquipeManutencao equipe = this.buscarEquipeOpcional(requisicao.equipeId());
         IntervencaoOperacional intervencao = new IntervencaoOperacional(tipo, trecho, equipe);
         return this.intervencaoRepository.save(intervencao);
     }
 
     @Transactional
-    public IntervencaoOperacional atualizar(Long id, IntervencaoOperacionalRequest request) {
+    public IntervencaoOperacional atualizar(Long id, IntervencaoOperacionalRequest requisicao) {
         IntervencaoOperacional intervencao = this.buscarPorId(id);
-        String tipo = this.normalizarTipo(request.tipo());
-        TrechoRodovia trecho = this.buscarTrecho(request.trechoId());
-        EquipeManutencao equipe = this.buscarEquipeOpcional(request.equipeId());
+        String tipo = this.normalizarTipo(requisicao.tipo());
+        TrechoRodovia trecho = this.buscarTrecho(requisicao.trechoId());
+        EquipeManutencao equipe = this.buscarEquipeOpcional(requisicao.equipeId());
         intervencao.setTipo(tipo);
         intervencao.setTrecho(trecho);
         intervencao.setEquipeManutencao(equipe);
@@ -86,12 +87,18 @@ public class IntervencaoOperacionalService {
         if (tipo == null || tipo.isBlank()) {
             throw new RegraNegocioException("O tipo da intervencao deve ser informado.");
         }
-        String tipoNormalizado = tipo.trim().toUpperCase();
-        if (!IntervencaoOperacional.isTipoValido(tipoNormalizado)) {
+        String tipoNormalizado = tipo.trim().toUpperCase(Locale.ROOT);
+        if (!this.isTipoValido(tipoNormalizado)) {
             throw new RegraNegocioException(
                     "O tipo da intervencao deve ser ROCADA_MANUAL, ROCADA_MECANIZADA ou PULVERIZACAO.");
         }
         return tipoNormalizado;
+    }
+
+    private boolean isTipoValido(String tipo) {
+        return IntervencaoOperacional.TIPO_ROCADA_MANUAL.equals(tipo)
+                || IntervencaoOperacional.TIPO_ROCADA_MECANIZADA.equals(tipo)
+                || IntervencaoOperacional.TIPO_PULVERIZACAO.equals(tipo);
     }
 
     private TrechoRodovia buscarTrecho(Long trechoId) {
