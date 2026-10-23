@@ -1,0 +1,1205 @@
+{
+  "executedAt": "2026-10-23T12:51:32.647000-03:00",
+  "database": "Oracle FIAP 19c",
+  "runner": "Newman",
+  "requests": [
+    {
+      "name": "01 - Criar equipe",
+      "method": "POST",
+      "url": "http://localhost:18084/api/equipes",
+      "requestBody": "{\n  \"nome\": \"Equipe Gama\",\n  \"quantidadeIntegrantes\": 5,\n  \"especialidade\": \"Controle preventivo\"\n}",
+      "status": 201,
+      "statusText": "Created",
+      "headers": [
+        {
+          "key": "Location",
+          "value": "http://localhost:18084/api/equipes/3"
+        },
+        {
+          "key": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "key": "Date",
+          "value": "Fri, 23 Oct 2026 15:51:33 GMT"
+        }
+      ],
+      "responseBody": "{\"id\":3,\"nome\":\"Equipe Gama\",\"quantidadeIntegrantes\":5,\"especialidade\":\"Controle preventivo\"}",
+      "responseTimeMs": 403,
+      "assertions": [
+        {
+          "name": "HTTP 201",
+          "passed": true
+        },
+        {
+          "name": "Location presente",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "02 - Criar trecho urgente",
+      "method": "POST",
+      "url": "http://localhost:18084/api/trechos",
+      "requestBody": "{\n  \"kmInicial\": 90,\n  \"kmFinal\": 91,\n  \"alturaVegetacaoCm\": 85,\n  \"tipoAmbiente\": \"umido\",\n  \"riscoOperacional\": \"alto\",\n  \"equipeId\": 3\n}",
+      "status": 201,
+      "statusText": "Created",
+      "headers": [
+        {
+          "key": "Location",
+          "value": "http://localhost:18084/api/trechos/5"
+        },
+        {
+          "key": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "key": "Date",
+          "value": "Fri, 23 Oct 2026 15:51:33 GMT"
+        }
+      ],
+      "responseBody": "{\"id\":5,\"kmInicial\":90.0,\"kmFinal\":91.0,\"descricaoKm\":\"KM 90.0 ao KM 91.0\",\"alturaVegetacaoCm\":85.0,\"tipoAmbiente\":\"umido\",\"riscoOperacional\":\"alto\",\"equipeId\":3,\"equipeNome\":\"Equipe Gama\"}",
+      "responseTimeMs": 75,
+      "assertions": [
+        {
+          "name": "HTTP 201",
+          "passed": true
+        },
+        {
+          "name": "Location presente",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "03 - Criar trecho critico",
+      "method": "POST",
+      "url": "http://localhost:18084/api/trechos",
+      "requestBody": "{\n  \"kmInicial\": 92,\n  \"kmFinal\": 93,\n  \"alturaVegetacaoCm\": 85,\n  \"tipoAmbiente\": \"umido\",\n  \"riscoOperacional\": \"baixo\",\n  \"equipeId\": 3\n}",
+      "status": 201,
+      "statusText": "Created",
+      "headers": [
+        {
+          "key": "Location",
+          "value": "http://localhost:18084/api/trechos/6"
+        },
+        {
+          "key": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "key": "Date",
+          "value": "Fri, 23 Oct 2026 15:51:33 GMT"
+        }
+      ],
+      "responseBody": "{\"id\":6,\"kmInicial\":92.0,\"kmFinal\":93.0,\"descricaoKm\":\"KM 92.0 ao KM 93.0\",\"alturaVegetacaoCm\":85.0,\"tipoAmbiente\":\"umido\",\"riscoOperacional\":\"baixo\",\"equipeId\":3,\"equipeNome\":\"Equipe Gama\"}",
+      "responseTimeMs": 42,
+      "assertions": [
+        {
+          "name": "HTTP 201",
+          "passed": true
+        },
+        {
+          "name": "Location presente",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "04 - Criar trecho atencao",
+      "method": "POST",
+      "url": "http://localhost:18084/api/trechos",
+      "requestBody": "{\n  \"kmInicial\": 94,\n  \"kmFinal\": 95,\n  \"alturaVegetacaoCm\": 45,\n  \"tipoAmbiente\": \"umido\",\n  \"riscoOperacional\": \"baixo\",\n  \"equipeId\": 3\n}",
+      "status": 201,
+      "statusText": "Created",
+      "headers": [
+        {
+          "key": "Location",
+          "value": "http://localhost:18084/api/trechos/7"
+        },
+        {
+          "key": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "key": "Date",
+          "value": "Fri, 23 Oct 2026 15:51:33 GMT"
+        }
+      ],
+      "responseBody": "{\"id\":7,\"kmInicial\":94.0,\"kmFinal\":95.0,\"descricaoKm\":\"KM 94.0 ao KM 95.0\",\"alturaVegetacaoCm\":45.0,\"tipoAmbiente\":\"umido\",\"riscoOperacional\":\"baixo\",\"equipeId\":3,\"equipeNome\":\"Equipe Gama\"}",
+      "responseTimeMs": 41,
+      "assertions": [
+        {
+          "name": "HTTP 201",
+          "passed": true
+        },
+        {
+          "name": "Location presente",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "05 - Criar trecho normal",
+      "method": "POST",
+      "url": "http://localhost:18084/api/trechos",
+      "requestBody": "{\n  \"kmInicial\": 96,\n  \"kmFinal\": 97,\n  \"alturaVegetacaoCm\": 20,\n  \"tipoAmbiente\": \"umido\",\n  \"riscoOperacional\": \"baixo\",\n  \"equipeId\": 3\n}",
+      "status": 201,
+      "statusText": "Created",
+      "headers": [
+        {
+          "key": "Location",
+          "value": "http://localhost:18084/api/trechos/8"
+        },
+        {
+          "key": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "key": "Date",
+          "value": "Fri, 23 Oct 2026 15:51:33 GMT"
+        }
+      ],
+      "responseBody": "{\"id\":8,\"kmInicial\":96.0,\"kmFinal\":97.0,\"descricaoKm\":\"KM 96.0 ao KM 97.0\",\"alturaVegetacaoCm\":20.0,\"tipoAmbiente\":\"umido\",\"riscoOperacional\":\"baixo\",\"equipeId\":3,\"equipeNome\":\"Equipe Gama\"}",
+      "responseTimeMs": 40,
+      "assertions": [
+        {
+          "name": "HTTP 201",
+          "passed": true
+        },
+        {
+          "name": "Location presente",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "06 - Listar equipes",
+      "method": "GET",
+      "url": "http://localhost:18084/api/equipes",
+      "requestBody": "",
+      "status": 200,
+      "statusText": "OK",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "key": "Date",
+          "value": "Fri, 23 Oct 2026 15:51:33 GMT"
+        }
+      ],
+      "responseBody": "[{\"id\":1,\"nome\":\"Equipe Alfa\",\"quantidadeIntegrantes\":6,\"especialidade\":\"Rocada manual\"},{\"id\":2,\"nome\":\"Equipe Beta\",\"quantidadeIntegrantes\":8,\"especialidade\":\"Rocada mecanizada e pulverizacao\"},{\"id\":3,\"nome\":\"Equipe Gama\",\"quantidadeIntegrantes\":5,\"especialidade\":\"Controle preventivo\"}]",
+      "responseTimeMs": 10,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "07 - Buscar equipe",
+      "method": "GET",
+      "url": "http://localhost:18084/api/equipes/3",
+      "requestBody": "",
+      "status": 200,
+      "statusText": "OK",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "key": "Date",
+          "value": "Fri, 23 Oct 2026 15:51:33 GMT"
+        }
+      ],
+      "responseBody": "{\"id\":3,\"nome\":\"Equipe Gama\",\"quantidadeIntegrantes\":5,\"especialidade\":\"Controle preventivo\"}",
+      "responseTimeMs": 9,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "08 - Filtrar equipes",
+      "method": "GET",
+      "url": "http://localhost:18084/api/equipes?especialidade=Controle",
+      "requestBody": "",
+      "status": 200,
+      "statusText": "OK",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "key": "Date",
+          "value": "Fri, 23 Oct 2026 15:51:33 GMT"
+        }
+      ],
+      "responseBody": "[{\"id\":3,\"nome\":\"Equipe Gama\",\"quantidadeIntegrantes\":5,\"especialidade\":\"Controle preventivo\"}]",
+      "responseTimeMs": 58,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "09 - Listar trechos",
+      "method": "GET",
+      "url": "http://localhost:18084/api/trechos",
+      "requestBody": "",
+      "status": 200,
+      "statusText": "OK",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "key": "Date",
+          "value": "Fri, 23 Oct 2026 15:51:33 GMT"
+        }
+      ],
+      "responseBody": "[{\"id\":1,\"kmInicial\":10.0,\"kmFinal\":11.0,\"descricaoKm\":\"KM 10.0 ao KM 11.0\",\"alturaVegetacaoCm\":92.0,\"tipoAmbiente\":\"umido\",\"riscoOperacional\":\"alto\",\"equipeId\":1,\"equipeNome\":\"Equipe Alfa\"},{\"id\":2,\"kmInicial\":20.0,\"kmFinal\":21.0,\"descricaoKm\":\"KM 20.0 ao KM 21.0\",\"alturaVegetacaoCm\":85.0,\"tipoAmbiente\":\"seco\",\"riscoOperacional\":\"baixo\",\"equipeId\":2,\"equipeNome\":\"Equipe Beta\"},{\"id\":3,\"kmInicial\":30.0,\"kmFinal\":31.0,\"descricaoKm\":\"KM 30.0 ao KM 31.0\",\"alturaVegetacaoCm\":55.0,\"tipoAmbiente\":\"umido\",\"riscoOperacional\":\"baixo\",\"equipeId\":2,\"equipeNome\":\"Equipe Beta\"},{\"id\":4,\"kmInicial\":40.0,\"kmFinal\":41.0,\"descricaoKm\":\"KM 40.0 ao KM 41.0\",\"alturaVegetacaoCm\":25.0,\"tipoAmbiente\":\"seco\",\"riscoOperacional\":\"baixo\",\"equipeId\":1,\"equipeNome\":\"Equipe Alfa\"},{\"id\":5,\"kmInicial\":90.0,\"kmFinal\":91.0,\"descricaoKm\":\"KM 90.0 ao KM 91.0\",\"alturaVegetacaoCm\":85.0,\"tipoAmbiente\":\"umido\",\"riscoOperacional\":\"alto\",\"equipeId\":3,\"equipeNome\":\"Equipe Gama\"},{\"id\":6,\"kmInicial\":92.0,\"kmFinal\":93.0,\"descricaoKm\":\"KM 92.0 ao KM 93.0\",\"alturaVegetacaoCm\":85.0,\"tipoAmbiente\":\"umido\",\"riscoOperacional\":\"baixo\",\"equipeId\":3,\"equipeNome\":\"Equipe Gama\"},{\"id\":7,\"kmInicial\":94.0,\"kmFinal\":95.0,\"descricaoKm\":\"KM 94.0 ao KM 95.0\",\"alturaVegetacaoCm\":45.0,\"tipoAmbiente\":\"umido\",\"riscoOperacional\":\"baixo\",\"equipeId\":3,\"equipeNome\":\"Equipe Gama\"},{\"id\":8,\"kmInicial\":96.0,\"kmFinal\":97.0,\"descricaoKm\":\"KM 96.0 ao KM 97.0\",\"alturaVegetacaoCm\":20.0,\"tipoAmbiente\":\"umido\",\"riscoOperacional\":\"baixo\",\"equipeId\":3,\"equipeNome\":\"Equipe Gama\"}]",
+      "responseTimeMs": 32,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "10 - Buscar trecho",
+      "method": "GET",
+      "url": "http://localhost:18084/api/trechos/5",
+      "requestBody": "",
+      "status": 200,
+      "statusText": "OK",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "key": "Date",
+          "value": "Fri, 23 Oct 2026 15:51:33 GMT"
+        }
+      ],
+      "responseBody": "{\"id\":5,\"kmInicial\":90.0,\"kmFinal\":91.0,\"descricaoKm\":\"KM 90.0 ao KM 91.0\",\"alturaVegetacaoCm\":85.0,\"tipoAmbiente\":\"umido\",\"riscoOperacional\":\"alto\",\"equipeId\":3,\"equipeNome\":\"Equipe Gama\"}",
+      "responseTimeMs": 14,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "11 - Filtrar trechos alturaMinima=80",
+      "method": "GET",
+      "url": "http://localhost:18084/api/trechos?alturaMinima=80",
+      "requestBody": "",
+      "status": 200,
+      "statusText": "OK",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "key": "Date",
+          "value": "Fri, 23 Oct 2026 15:51:34 GMT"
+        }
+      ],
+      "responseBody": "[{\"id\":1,\"kmInicial\":10.0,\"kmFinal\":11.0,\"descricaoKm\":\"KM 10.0 ao KM 11.0\",\"alturaVegetacaoCm\":92.0,\"tipoAmbiente\":\"umido\",\"riscoOperacional\":\"alto\",\"equipeId\":1,\"equipeNome\":\"Equipe Alfa\"},{\"id\":2,\"kmInicial\":20.0,\"kmFinal\":21.0,\"descricaoKm\":\"KM 20.0 ao KM 21.0\",\"alturaVegetacaoCm\":85.0,\"tipoAmbiente\":\"seco\",\"riscoOperacional\":\"baixo\",\"equipeId\":2,\"equipeNome\":\"Equipe Beta\"},{\"id\":5,\"kmInicial\":90.0,\"kmFinal\":91.0,\"descricaoKm\":\"KM 90.0 ao KM 91.0\",\"alturaVegetacaoCm\":85.0,\"tipoAmbiente\":\"umido\",\"riscoOperacional\":\"alto\",\"equipeId\":3,\"equipeNome\":\"Equipe Gama\"},{\"id\":6,\"kmInicial\":92.0,\"kmFinal\":93.0,\"descricaoKm\":\"KM 92.0 ao KM 93.0\",\"alturaVegetacaoCm\":85.0,\"tipoAmbiente\":\"umido\",\"riscoOperacional\":\"baixo\",\"equipeId\":3,\"equipeNome\":\"Equipe Gama\"}]",
+      "responseTimeMs": 34,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "12 - Filtrar trechos risco=alto",
+      "method": "GET",
+      "url": "http://localhost:18084/api/trechos?risco=alto",
+      "requestBody": "",
+      "status": 200,
+      "statusText": "OK",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "key": "Date",
+          "value": "Fri, 23 Oct 2026 15:51:34 GMT"
+        }
+      ],
+      "responseBody": "[{\"id\":1,\"kmInicial\":10.0,\"kmFinal\":11.0,\"descricaoKm\":\"KM 10.0 ao KM 11.0\",\"alturaVegetacaoCm\":92.0,\"tipoAmbiente\":\"umido\",\"riscoOperacional\":\"alto\",\"equipeId\":1,\"equipeNome\":\"Equipe Alfa\"},{\"id\":5,\"kmInicial\":90.0,\"kmFinal\":91.0,\"descricaoKm\":\"KM 90.0 ao KM 91.0\",\"alturaVegetacaoCm\":85.0,\"tipoAmbiente\":\"umido\",\"riscoOperacional\":\"alto\",\"equipeId\":3,\"equipeNome\":\"Equipe Gama\"}]",
+      "responseTimeMs": 26,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "13 - Filtrar trechos ambiente=umido",
+      "method": "GET",
+      "url": "http://localhost:18084/api/trechos?ambiente=umido",
+      "requestBody": "",
+      "status": 200,
+      "statusText": "OK",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "key": "Date",
+          "value": "Fri, 23 Oct 2026 15:51:34 GMT"
+        }
+      ],
+      "responseBody": "[{\"id\":1,\"kmInicial\":10.0,\"kmFinal\":11.0,\"descricaoKm\":\"KM 10.0 ao KM 11.0\",\"alturaVegetacaoCm\":92.0,\"tipoAmbiente\":\"umido\",\"riscoOperacional\":\"alto\",\"equipeId\":1,\"equipeNome\":\"Equipe Alfa\"},{\"id\":3,\"kmInicial\":30.0,\"kmFinal\":31.0,\"descricaoKm\":\"KM 30.0 ao KM 31.0\",\"alturaVegetacaoCm\":55.0,\"tipoAmbiente\":\"umido\",\"riscoOperacional\":\"baixo\",\"equipeId\":2,\"equipeNome\":\"Equipe Beta\"},{\"id\":5,\"kmInicial\":90.0,\"kmFinal\":91.0,\"descricaoKm\":\"KM 90.0 ao KM 91.0\",\"alturaVegetacaoCm\":85.0,\"tipoAmbiente\":\"umido\",\"riscoOperacional\":\"alto\",\"equipeId\":3,\"equipeNome\":\"Equipe Gama\"},{\"id\":6,\"kmInicial\":92.0,\"kmFinal\":93.0,\"descricaoKm\":\"KM 92.0 ao KM 93.0\",\"alturaVegetacaoCm\":85.0,\"tipoAmbiente\":\"umido\",\"riscoOperacional\":\"baixo\",\"equipeId\":3,\"equipeNome\":\"Equipe Gama\"},{\"id\":7,\"kmInicial\":94.0,\"kmFinal\":95.0,\"descricaoKm\":\"KM 94.0 ao KM 95.0\",\"alturaVegetacaoCm\":45.0,\"tipoAmbiente\":\"umido\",\"riscoOperacional\":\"baixo\",\"equipeId\":3,\"equipeNome\":\"Equipe Gama\"},{\"id\":8,\"kmInicial\":96.0,\"kmFinal\":97.0,\"descricaoKm\":\"KM 96.0 ao KM 97.0\",\"alturaVegetacaoCm\":20.0,\"tipoAmbiente\":\"umido\",\"riscoOperacional\":\"baixo\",\"equipeId\":3,\"equipeNome\":\"Equipe Gama\"}]",
+      "responseTimeMs": 33,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "14 - Filtrar trechos equipeId={{equipeId}}",
+      "method": "GET",
+      "url": "http://localhost:18084/api/trechos?equipeId=3",
+      "requestBody": "",
+      "status": 200,
+      "statusText": "OK",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "key": "Date",
+          "value": "Fri, 23 Oct 2026 15:51:34 GMT"
+        }
+      ],
+      "responseBody": "[{\"id\":5,\"kmInicial\":90.0,\"kmFinal\":91.0,\"descricaoKm\":\"KM 90.0 ao KM 91.0\",\"alturaVegetacaoCm\":85.0,\"tipoAmbiente\":\"umido\",\"riscoOperacional\":\"alto\",\"equipeId\":3,\"equipeNome\":\"Equipe Gama\"},{\"id\":6,\"kmInicial\":92.0,\"kmFinal\":93.0,\"descricaoKm\":\"KM 92.0 ao KM 93.0\",\"alturaVegetacaoCm\":85.0,\"tipoAmbiente\":\"umido\",\"riscoOperacional\":\"baixo\",\"equipeId\":3,\"equipeNome\":\"Equipe Gama\"},{\"id\":7,\"kmInicial\":94.0,\"kmFinal\":95.0,\"descricaoKm\":\"KM 94.0 ao KM 95.0\",\"alturaVegetacaoCm\":45.0,\"tipoAmbiente\":\"umido\",\"riscoOperacional\":\"baixo\",\"equipeId\":3,\"equipeNome\":\"Equipe Gama\"},{\"id\":8,\"kmInicial\":96.0,\"kmFinal\":97.0,\"descricaoKm\":\"KM 96.0 ao KM 97.0\",\"alturaVegetacaoCm\":20.0,\"tipoAmbiente\":\"umido\",\"riscoOperacional\":\"baixo\",\"equipeId\":3,\"equipeNome\":\"Equipe Gama\"}]",
+      "responseTimeMs": 22,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "15 - Atualizar equipe",
+      "method": "PUT",
+      "url": "http://localhost:18084/api/equipes/3",
+      "requestBody": "{\n  \"nome\": \"Equipe Gama\",\n  \"quantidadeIntegrantes\": 7,\n  \"especialidade\": \"Rocada e controle preventivo\"\n}",
+      "status": 200,
+      "statusText": "OK",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "key": "Date",
+          "value": "Fri, 23 Oct 2026 15:51:34 GMT"
+        }
+      ],
+      "responseBody": "{\"id\":3,\"nome\":\"Equipe Gama\",\"quantidadeIntegrantes\":7,\"especialidade\":\"Rocada e controle preventivo\"}",
+      "responseTimeMs": 45,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "16 - Atualizar trecho",
+      "method": "PUT",
+      "url": "http://localhost:18084/api/trechos/7",
+      "requestBody": "{\n  \"kmInicial\": 94,\n  \"kmFinal\": 95,\n  \"alturaVegetacaoCm\": 45,\n  \"tipoAmbiente\": \"umido\",\n  \"riscoOperacional\": \"baixo\",\n  \"equipeId\": 3\n}",
+      "status": 200,
+      "statusText": "OK",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "key": "Date",
+          "value": "Fri, 23 Oct 2026 15:51:34 GMT"
+        }
+      ],
+      "responseBody": "{\"id\":7,\"kmInicial\":94.0,\"kmFinal\":95.0,\"descricaoKm\":\"KM 94.0 ao KM 95.0\",\"alturaVegetacaoCm\":45.0,\"tipoAmbiente\":\"umido\",\"riscoOperacional\":\"baixo\",\"equipeId\":3,\"equipeNome\":\"Equipe Gama\"}",
+      "responseTimeMs": 22,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "17 - Criar intervencao",
+      "method": "POST",
+      "url": "http://localhost:18084/api/intervencoes",
+      "requestBody": "{\n  \"tipo\": \"PULVERIZACAO\",\n  \"trechoId\": 7,\n  \"equipeId\": 3\n}",
+      "status": 201,
+      "statusText": "Created",
+      "headers": [
+        {
+          "key": "Location",
+          "value": "http://localhost:18084/api/intervencoes/4"
+        },
+        {
+          "key": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "key": "Date",
+          "value": "Fri, 23 Oct 2026 15:51:34 GMT"
+        }
+      ],
+      "responseBody": "{\"id\":4,\"tipo\":\"PULVERIZACAO\",\"nomeIntervencao\":\"Pulverizacao\",\"trechoId\":7,\"descricaoTrecho\":\"KM 94.0 ao KM 95.0\",\"equipeId\":3,\"equipeNome\":\"Equipe Gama\"}",
+      "responseTimeMs": 45,
+      "assertions": [
+        {
+          "name": "HTTP 201",
+          "passed": true
+        },
+        {
+          "name": "Location presente",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "18 - Listar intervencoes",
+      "method": "GET",
+      "url": "http://localhost:18084/api/intervencoes",
+      "requestBody": "",
+      "status": 200,
+      "statusText": "OK",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "key": "Date",
+          "value": "Fri, 23 Oct 2026 15:51:34 GMT"
+        }
+      ],
+      "responseBody": "[{\"id\":1,\"tipo\":\"ROCADA_MANUAL\",\"nomeIntervencao\":\"Rocada manual\",\"trechoId\":1,\"descricaoTrecho\":\"KM 10.0 ao KM 11.0\",\"equipeId\":1,\"equipeNome\":\"Equipe Alfa\"},{\"id\":2,\"tipo\":\"ROCADA_MECANIZADA\",\"nomeIntervencao\":\"Rocada mecanizada\",\"trechoId\":2,\"descricaoTrecho\":\"KM 20.0 ao KM 21.0\",\"equipeId\":2,\"equipeNome\":\"Equipe Beta\"},{\"id\":3,\"tipo\":\"PULVERIZACAO\",\"nomeIntervencao\":\"Pulverizacao\",\"trechoId\":3,\"descricaoTrecho\":\"KM 30.0 ao KM 31.0\",\"equipeId\":2,\"equipeNome\":\"Equipe Beta\"},{\"id\":4,\"tipo\":\"PULVERIZACAO\",\"nomeIntervencao\":\"Pulverizacao\",\"trechoId\":7,\"descricaoTrecho\":\"KM 94.0 ao KM 95.0\",\"equipeId\":3,\"equipeNome\":\"Equipe Gama\"}]",
+      "responseTimeMs": 58,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "19 - Buscar intervencao",
+      "method": "GET",
+      "url": "http://localhost:18084/api/intervencoes/4",
+      "requestBody": "",
+      "status": 200,
+      "statusText": "OK",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "key": "Date",
+          "value": "Fri, 23 Oct 2026 15:51:34 GMT"
+        }
+      ],
+      "responseBody": "{\"id\":4,\"tipo\":\"PULVERIZACAO\",\"nomeIntervencao\":\"Pulverizacao\",\"trechoId\":7,\"descricaoTrecho\":\"KM 94.0 ao KM 95.0\",\"equipeId\":3,\"equipeNome\":\"Equipe Gama\"}",
+      "responseTimeMs": 15,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "20 - Filtrar intervencoes tipo=PULVERIZACAO",
+      "method": "GET",
+      "url": "http://localhost:18084/api/intervencoes?tipo=PULVERIZACAO",
+      "requestBody": "",
+      "status": 200,
+      "statusText": "OK",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "key": "Date",
+          "value": "Fri, 23 Oct 2026 15:51:34 GMT"
+        }
+      ],
+      "responseBody": "[{\"id\":3,\"tipo\":\"PULVERIZACAO\",\"nomeIntervencao\":\"Pulverizacao\",\"trechoId\":3,\"descricaoTrecho\":\"KM 30.0 ao KM 31.0\",\"equipeId\":2,\"equipeNome\":\"Equipe Beta\"},{\"id\":4,\"tipo\":\"PULVERIZACAO\",\"nomeIntervencao\":\"Pulverizacao\",\"trechoId\":7,\"descricaoTrecho\":\"KM 94.0 ao KM 95.0\",\"equipeId\":3,\"equipeNome\":\"Equipe Gama\"}]",
+      "responseTimeMs": 37,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "21 - Filtrar intervencoes trechoId={{trechoAtencaoId}}",
+      "method": "GET",
+      "url": "http://localhost:18084/api/intervencoes?trechoId=7",
+      "requestBody": "",
+      "status": 200,
+      "statusText": "OK",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "key": "Date",
+          "value": "Fri, 23 Oct 2026 15:51:35 GMT"
+        }
+      ],
+      "responseBody": "[{\"id\":4,\"tipo\":\"PULVERIZACAO\",\"nomeIntervencao\":\"Pulverizacao\",\"trechoId\":7,\"descricaoTrecho\":\"KM 94.0 ao KM 95.0\",\"equipeId\":3,\"equipeNome\":\"Equipe Gama\"}]",
+      "responseTimeMs": 25,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "22 - Filtrar intervencoes equipeId={{equipeId}}",
+      "method": "GET",
+      "url": "http://localhost:18084/api/intervencoes?equipeId=3",
+      "requestBody": "",
+      "status": 200,
+      "statusText": "OK",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "key": "Date",
+          "value": "Fri, 23 Oct 2026 15:51:35 GMT"
+        }
+      ],
+      "responseBody": "[{\"id\":4,\"tipo\":\"PULVERIZACAO\",\"nomeIntervencao\":\"Pulverizacao\",\"trechoId\":7,\"descricaoTrecho\":\"KM 94.0 ao KM 95.0\",\"equipeId\":3,\"equipeNome\":\"Equipe Gama\"}]",
+      "responseTimeMs": 25,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "23 - Atualizar intervencao",
+      "method": "PUT",
+      "url": "http://localhost:18084/api/intervencoes/4",
+      "requestBody": "{\n  \"tipo\": \"ROCADA_MECANIZADA\",\n  \"trechoId\": 7,\n  \"equipeId\": 3\n}",
+      "status": 200,
+      "statusText": "OK",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "key": "Date",
+          "value": "Fri, 23 Oct 2026 15:51:35 GMT"
+        }
+      ],
+      "responseBody": "{\"id\":4,\"tipo\":\"ROCADA_MECANIZADA\",\"nomeIntervencao\":\"Rocada mecanizada\",\"trechoId\":7,\"descricaoTrecho\":\"KM 94.0 ao KM 95.0\",\"equipeId\":3,\"equipeNome\":\"Equipe Gama\"}",
+      "responseTimeMs": 29,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "24 - Gerar relatorio",
+      "method": "POST",
+      "url": "http://localhost:18084/api/relatorios",
+      "requestBody": "",
+      "status": 201,
+      "statusText": "Created",
+      "headers": [
+        {
+          "key": "Location",
+          "value": "http://localhost:18084/api/relatorios/4"
+        },
+        {
+          "key": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "key": "Date",
+          "value": "Fri, 23 Oct 2026 15:51:35 GMT"
+        }
+      ],
+      "responseBody": "{\"relatorio\":{\"id\":4,\"quantidadeUrgente\":2,\"quantidadeCritico\":2,\"quantidadeAtencao\":2,\"quantidadeNormal\":2,\"resumo\":\"Urgente: 2, Critico: 2, Atencao: 2, Normal: 2\",\"dataGeracao\":\"2026-10-23T12:51:35.4091561\"},\"itens\":[{\"trechoId\":1,\"descricaoKm\":\"KM 10.0 ao KM 11.0\",\"alturaVegetacaoCm\":92.0,\"tipoAmbiente\":\"umido\",\"riscoOperacional\":\"alto\",\"prioridade\":\"URGENTE\",\"tipoIntervencao\":\"ROCADA_MANUAL\",\"intervencaoIndicada\":\"Rocada manual\",\"motivo\":\"Vegetacao alta em area com risco operacional alto.\"},{\"trechoId\":2,\"descricaoKm\":\"KM 20.0 ao KM 21.0\",\"alturaVegetacaoCm\":85.0,\"tipoAmbiente\":\"seco\",\"riscoOperacional\":\"baixo\",\"prioridade\":\"CRITICO\",\"tipoIntervencao\":\"ROCADA_MECANIZADA\",\"intervencaoIndicada\":\"Rocada mecanizada\",\"motivo\":\"Vegetacao alta em area com risco operacional baixo.\"},{\"trechoId\":3,\"descricaoKm\":\"KM 30.0 ao KM 31.0\",\"alturaVegetacaoCm\":55.0,\"tipoAmbiente\":\"umido\",\"riscoOperacional\":\"baixo\",\"prioridade\":\"ATENCAO\",\"tipoIntervencao\":\"PULVERIZACAO\",\"intervencaoIndicada\":\"Pulverizacao\",\"motivo\":\"Vegetacao media exige controle preventivo.\"},{\"trechoId\":4,\"descricaoKm\":\"KM 40.0 ao KM 41.0\",\"alturaVegetacaoCm\":25.0,\"tipoAmbiente\":\"seco\",\"riscoOperacional\":\"baixo\",\"prioridade\":\"NORMAL\",\"tipoIntervencao\":null,\"intervencaoIndicada\":\"nenhuma\",\"motivo\":\"Vegetacao baixa. Nao ha prioridade de servico.\"},{\"trechoId\":5,\"descricaoKm\":\"KM 90.0 ao KM 91.0\",\"alturaVegetacaoCm\":85.0,\"tipoAmbiente\":\"umido\",\"riscoOperacional\":\"alto\",\"prioridade\":\"URGENTE\",\"tipoIntervencao\":\"ROCADA_MANUAL\",\"intervencaoIndicada\":\"Rocada manual\",\"motivo\":\"Vegetacao alta em area com risco operacional alto.\"},{\"trechoId\":6,\"descricaoKm\":\"KM 92.0 ao KM 93.0\",\"alturaVegetacaoCm\":85.0,\"tipoAmbiente\":\"umido\",\"riscoOperacional\":\"baixo\",\"prioridade\":\"CRITICO\",\"tipoIntervencao\":\"ROCADA_MECANIZADA\",\"intervencaoIndicada\":\"Rocada mecanizada\",\"motivo\":\"Vegetacao alta em area com risco operacional baixo.\"},{\"trechoId\":7,\"descricaoKm\":\"KM 94.0 ao KM 95.0\",\"alturaVegetacaoCm\":45.0,\"tipoAmbiente\":\"umido\",\"riscoOperacional\":\"baixo\",\"prioridade\":\"ATENCAO\",\"tipoIntervencao\":\"PULVERIZACAO\",\"intervencaoIndicada\":\"Pulverizacao\",\"motivo\":\"Vegetacao media exige controle preventivo.\"},{\"trechoId\":8,\"descricaoKm\":\"KM 96.0 ao KM 97.0\",\"alturaVegetacaoCm\":20.0,\"tipoAmbiente\":\"umido\",\"riscoOperacional\":\"baixo\",\"prioridade\":\"NORMAL\",\"tipoIntervencao\":null,\"intervencaoIndicada\":\"nenhuma\",\"motivo\":\"Vegetacao baixa. Nao ha prioridade de servico.\"}]}",
+      "responseTimeMs": 65,
+      "assertions": [
+        {
+          "name": "HTTP 201",
+          "passed": true
+        },
+        {
+          "name": "Location presente",
+          "passed": true
+        },
+        {
+          "name": "Prioridade URGENTE",
+          "passed": true
+        },
+        {
+          "name": "Prioridade CRITICO",
+          "passed": true
+        },
+        {
+          "name": "Prioridade ATENCAO",
+          "passed": true
+        },
+        {
+          "name": "Prioridade NORMAL",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "25 - Listar historico",
+      "method": "GET",
+      "url": "http://localhost:18084/api/relatorios",
+      "requestBody": "",
+      "status": 200,
+      "statusText": "OK",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "key": "Date",
+          "value": "Fri, 23 Oct 2026 15:51:35 GMT"
+        }
+      ],
+      "responseBody": "[{\"id\":4,\"quantidadeUrgente\":2,\"quantidadeCritico\":2,\"quantidadeAtencao\":2,\"quantidadeNormal\":2,\"resumo\":\"Urgente: 2, Critico: 2, Atencao: 2, Normal: 2\",\"dataGeracao\":\"2026-10-23T12:51:35.409156\"},{\"id\":3,\"quantidadeUrgente\":2,\"quantidadeCritico\":1,\"quantidadeAtencao\":1,\"quantidadeNormal\":1,\"resumo\":\"Urgente: 2, Critico: 1, Atencao: 1, Normal: 1\",\"dataGeracao\":\"2026-09-21T01:47:22.75436\"},{\"id\":1,\"quantidadeUrgente\":1,\"quantidadeCritico\":1,\"quantidadeAtencao\":1,\"quantidadeNormal\":1,\"resumo\":\"Dados iniciais: uma ocorrencia de cada prioridade\",\"dataGeracao\":\"2026-09-21T01:47:06.929709\"}]",
+      "responseTimeMs": 23,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        },
+        {
+          "name": "Historico contem o relatorio criado",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "26 - Buscar relatorio",
+      "method": "GET",
+      "url": "http://localhost:18084/api/relatorios/4",
+      "requestBody": "",
+      "status": 200,
+      "statusText": "OK",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "key": "Date",
+          "value": "Fri, 23 Oct 2026 15:51:35 GMT"
+        }
+      ],
+      "responseBody": "{\"id\":4,\"quantidadeUrgente\":2,\"quantidadeCritico\":2,\"quantidadeAtencao\":2,\"quantidadeNormal\":2,\"resumo\":\"Urgente: 2, Critico: 2, Atencao: 2, Normal: 2\",\"dataGeracao\":\"2026-10-23T12:51:35.409156\"}",
+      "responseTimeMs": 13,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "27 - Consultar periodo",
+      "method": "GET",
+      "url": "http://localhost:18084/api/relatorios/periodo?inicio=2026-10-23&fim=2026-10-23",
+      "requestBody": "",
+      "status": 200,
+      "statusText": "OK",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "key": "Date",
+          "value": "Fri, 23 Oct 2026 15:51:35 GMT"
+        }
+      ],
+      "responseBody": "[{\"id\":4,\"quantidadeUrgente\":2,\"quantidadeCritico\":2,\"quantidadeAtencao\":2,\"quantidadeNormal\":2,\"resumo\":\"Urgente: 2, Critico: 2, Atencao: 2, Normal: 2\",\"dataGeracao\":\"2026-10-23T12:51:35.409156\"}]",
+      "responseTimeMs": 20,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        },
+        {
+          "name": "Historico contem o relatorio criado",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "28 - Erro 400 equipe invalida",
+      "method": "POST",
+      "url": "http://localhost:18084/api/equipes",
+      "requestBody": "{\n  \"nome\": \"Equipe Gama\",\n  \"quantidadeIntegrantes\": 0,\n  \"especialidade\": \"Controle preventivo\"\n}",
+      "status": 400,
+      "statusText": "Bad Request",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "key": "Date",
+          "value": "Fri, 23 Oct 2026 15:51:35 GMT"
+        }
+      ],
+      "responseBody": "{\"dataHora\":\"2026-10-23T12:51:35.7606762\",\"status\":400,\"erro\":\"Bad Request\",\"mensagem\":\"Dados invalidos na requisicao.\",\"caminho\":\"/api/equipes\",\"detalhes\":[\"quantidadeIntegrantes: A equipe deve ter pelo menos um integrante.\"]}",
+      "responseTimeMs": 11,
+      "assertions": [
+        {
+          "name": "HTTP 400",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "29 - Erro 400 altura negativa",
+      "method": "POST",
+      "url": "http://localhost:18084/api/trechos",
+      "requestBody": "{\n  \"kmInicial\": 98,\n  \"kmFinal\": 99,\n  \"alturaVegetacaoCm\": -5,\n  \"tipoAmbiente\": \"umido\",\n  \"riscoOperacional\": \"baixo\",\n  \"equipeId\": 3\n}",
+      "status": 400,
+      "statusText": "Bad Request",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "key": "Date",
+          "value": "Fri, 23 Oct 2026 15:51:35 GMT"
+        }
+      ],
+      "responseBody": "{\"dataHora\":\"2026-10-23T12:51:35.8367655\",\"status\":400,\"erro\":\"Bad Request\",\"mensagem\":\"A altura da vegetacao nao pode ser negativa.\",\"caminho\":\"/api/trechos\",\"detalhes\":[]}",
+      "responseTimeMs": 14,
+      "assertions": [
+        {
+          "name": "HTTP 400",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "30 - Erro 400 intervencao invalida",
+      "method": "POST",
+      "url": "http://localhost:18084/api/intervencoes",
+      "requestBody": "{\n  \"tipo\": \"INVALIDO\",\n  \"trechoId\": 7,\n  \"equipeId\": 3\n}",
+      "status": 400,
+      "statusText": "Bad Request",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "key": "Date",
+          "value": "Fri, 23 Oct 2026 15:51:35 GMT"
+        }
+      ],
+      "responseBody": "{\"dataHora\":\"2026-10-23T12:51:35.9102986\",\"status\":400,\"erro\":\"Bad Request\",\"mensagem\":\"O tipo da intervencao deve ser ROCADA_MANUAL, ROCADA_MECANIZADA ou PULVERIZACAO.\",\"caminho\":\"/api/intervencoes\",\"detalhes\":[]}",
+      "responseTimeMs": 9,
+      "assertions": [
+        {
+          "name": "HTTP 400",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "31 - Erro 400 periodo invertido",
+      "method": "GET",
+      "url": "http://localhost:18084/api/relatorios/periodo?inicio=2026-10-31&fim=2026-10-01",
+      "requestBody": "",
+      "status": 400,
+      "statusText": "Bad Request",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "key": "Date",
+          "value": "Fri, 23 Oct 2026 15:51:35 GMT"
+        }
+      ],
+      "responseBody": "{\"dataHora\":\"2026-10-23T12:51:35.9585013\",\"status\":400,\"erro\":\"Bad Request\",\"mensagem\":\"A data de inicio deve ser anterior ou igual a data de fim.\",\"caminho\":\"/api/relatorios/periodo\",\"detalhes\":[]}",
+      "responseTimeMs": 10,
+      "assertions": [
+        {
+          "name": "HTTP 400",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "32 - Erro 409 equipe em uso",
+      "method": "DELETE",
+      "url": "http://localhost:18084/api/equipes/3",
+      "requestBody": "",
+      "status": 409,
+      "statusText": "Conflict",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "key": "Date",
+          "value": "Fri, 23 Oct 2026 15:51:36 GMT"
+        }
+      ],
+      "responseBody": "{\"dataHora\":\"2026-10-23T12:51:36.0378272\",\"status\":409,\"erro\":\"Conflict\",\"mensagem\":\"A equipe de manutencao com ID 3 esta vinculada a trechos e nao pode ser removida.\",\"caminho\":\"/api/equipes/3\",\"detalhes\":[]}",
+      "responseTimeMs": 28,
+      "assertions": [
+        {
+          "name": "HTTP 409",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "33 - Erro 409 trecho em uso",
+      "method": "DELETE",
+      "url": "http://localhost:18084/api/trechos/7",
+      "requestBody": "",
+      "status": 409,
+      "statusText": "Conflict",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "key": "Date",
+          "value": "Fri, 23 Oct 2026 15:51:36 GMT"
+        }
+      ],
+      "responseBody": "{\"dataHora\":\"2026-10-23T12:51:36.120955\",\"status\":409,\"erro\":\"Conflict\",\"mensagem\":\"O trecho de rodovia com ID 7 possui intervencoes vinculadas e nao pode ser removido.\",\"caminho\":\"/api/trechos/7\",\"detalhes\":[]}",
+      "responseTimeMs": 27,
+      "assertions": [
+        {
+          "name": "HTTP 409",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "34 - Excluir intervencao",
+      "method": "DELETE",
+      "url": "http://localhost:18084/api/intervencoes/4",
+      "requestBody": "",
+      "status": 204,
+      "statusText": "No Content",
+      "headers": [
+        {
+          "key": "Date",
+          "value": "Fri, 23 Oct 2026 15:51:36 GMT"
+        }
+      ],
+      "responseBody": "",
+      "responseTimeMs": 31,
+      "assertions": [
+        {
+          "name": "HTTP 204",
+          "passed": true
+        },
+        {
+          "name": "Sem corpo",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "35 - Erro 404 intervencao excluida",
+      "method": "GET",
+      "url": "http://localhost:18084/api/intervencoes/4",
+      "requestBody": "",
+      "status": 404,
+      "statusText": "Not Found",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "key": "Date",
+          "value": "Fri, 23 Oct 2026 15:51:36 GMT"
+        }
+      ],
+      "responseBody": "{\"dataHora\":\"2026-10-23T12:51:36.2443977\",\"status\":404,\"erro\":\"Not Found\",\"mensagem\":\"Intervencao operacional com ID 4 nao encontrada.\",\"caminho\":\"/api/intervencoes/4\",\"detalhes\":[]}",
+      "responseTimeMs": 16,
+      "assertions": [
+        {
+          "name": "HTTP 404",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "36 - Excluir trechoUrgenteId",
+      "method": "DELETE",
+      "url": "http://localhost:18084/api/trechos/5",
+      "requestBody": "",
+      "status": 204,
+      "statusText": "No Content",
+      "headers": [
+        {
+          "key": "Date",
+          "value": "Fri, 23 Oct 2026 15:51:36 GMT"
+        }
+      ],
+      "responseBody": "",
+      "responseTimeMs": 34,
+      "assertions": [
+        {
+          "name": "HTTP 204",
+          "passed": true
+        },
+        {
+          "name": "Sem corpo",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "37 - Excluir trechoCriticoId",
+      "method": "DELETE",
+      "url": "http://localhost:18084/api/trechos/6",
+      "requestBody": "",
+      "status": 204,
+      "statusText": "No Content",
+      "headers": [
+        {
+          "key": "Date",
+          "value": "Fri, 23 Oct 2026 15:51:36 GMT"
+        }
+      ],
+      "responseBody": "",
+      "responseTimeMs": 28,
+      "assertions": [
+        {
+          "name": "HTTP 204",
+          "passed": true
+        },
+        {
+          "name": "Sem corpo",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "38 - Excluir trechoAtencaoId",
+      "method": "DELETE",
+      "url": "http://localhost:18084/api/trechos/7",
+      "requestBody": "",
+      "status": 204,
+      "statusText": "No Content",
+      "headers": [
+        {
+          "key": "Date",
+          "value": "Fri, 23 Oct 2026 15:51:36 GMT"
+        }
+      ],
+      "responseBody": "",
+      "responseTimeMs": 30,
+      "assertions": [
+        {
+          "name": "HTTP 204",
+          "passed": true
+        },
+        {
+          "name": "Sem corpo",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "39 - Excluir trechoNormalId",
+      "method": "DELETE",
+      "url": "http://localhost:18084/api/trechos/8",
+      "requestBody": "",
+      "status": 204,
+      "statusText": "No Content",
+      "headers": [
+        {
+          "key": "Date",
+          "value": "Fri, 23 Oct 2026 15:51:36 GMT"
+        }
+      ],
+      "responseBody": "",
+      "responseTimeMs": 30,
+      "assertions": [
+        {
+          "name": "HTTP 204",
+          "passed": true
+        },
+        {
+          "name": "Sem corpo",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "40 - Erro 404 trecho excluido",
+      "method": "GET",
+      "url": "http://localhost:18084/api/trechos/5",
+      "requestBody": "",
+      "status": 404,
+      "statusText": "Not Found",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "key": "Date",
+          "value": "Fri, 23 Oct 2026 15:51:36 GMT"
+        }
+      ],
+      "responseBody": "{\"dataHora\":\"2026-10-23T12:51:36.6762187\",\"status\":404,\"erro\":\"Not Found\",\"mensagem\":\"Trecho de rodovia com ID 5 nao encontrado.\",\"caminho\":\"/api/trechos/5\",\"detalhes\":[]}",
+      "responseTimeMs": 16,
+      "assertions": [
+        {
+          "name": "HTTP 404",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "41 - Excluir equipe",
+      "method": "DELETE",
+      "url": "http://localhost:18084/api/equipes/3",
+      "requestBody": "",
+      "status": 204,
+      "statusText": "No Content",
+      "headers": [
+        {
+          "key": "Date",
+          "value": "Fri, 23 Oct 2026 15:51:36 GMT"
+        }
+      ],
+      "responseBody": "",
+      "responseTimeMs": 48,
+      "assertions": [
+        {
+          "name": "HTTP 204",
+          "passed": true
+        },
+        {
+          "name": "Sem corpo",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "42 - Erro 404 equipe excluida",
+      "method": "GET",
+      "url": "http://localhost:18084/api/equipes/3",
+      "requestBody": "",
+      "status": 404,
+      "statusText": "Not Found",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "key": "Date",
+          "value": "Fri, 23 Oct 2026 15:51:36 GMT"
+        }
+      ],
+      "responseBody": "{\"dataHora\":\"2026-10-23T12:51:36.9041118\",\"status\":404,\"erro\":\"Not Found\",\"mensagem\":\"Equipe de manutencao com ID 3 nao encontrada.\",\"caminho\":\"/api/equipes/3\",\"detalhes\":[]}",
+      "responseTimeMs": 15,
+      "assertions": [
+        {
+          "name": "HTTP 404",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "43 - Confirmar historico apos exclusoes",
+      "method": "GET",
+      "url": "http://localhost:18084/api/relatorios/4",
+      "requestBody": "",
+      "status": 200,
+      "statusText": "OK",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "key": "Date",
+          "value": "Fri, 23 Oct 2026 15:51:37 GMT"
+        }
+      ],
+      "responseBody": "{\"id\":4,\"quantidadeUrgente\":2,\"quantidadeCritico\":2,\"quantidadeAtencao\":2,\"quantidadeNormal\":2,\"resumo\":\"Urgente: 2, Critico: 2, Atencao: 2, Normal: 2\",\"dataGeracao\":\"2026-10-23T12:51:35.409156\"}",
+      "responseTimeMs": 8,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        }
+      ]
+    }
+  ]
+}

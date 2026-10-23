@@ -1,0 +1,84 @@
+{
+  "verifiedAt": "2026-10-23T12:54:51.792365-03:00",
+  "restartConfirmed": true,
+  "report": {
+    "id": 4,
+    "quantidadeUrgente": 2,
+    "quantidadeCritico": 2,
+    "quantidadeAtencao": 2,
+    "quantidadeNormal": 2,
+    "resumo": "Urgente: 2, Critico: 2, Atencao: 2, Normal: 2",
+    "dataGeracao": "2026-10-23T12:51:35.409156"
+  },
+  "directDatabaseCheck": true,
+  "rowCounts": {
+    "TB_EQUIPE_MANUTENCAO": 2,
+    "TB_TRECHO_RODOVIA": 4,
+    "TB_INTERVENCAO_OPERACIONAL": 3,
+    "TB_RELATORIO_PRIORIDADE": 3
+  },
+  "regressionChecks": [
+    {
+      "name": "altura NaN",
+      "status": 400,
+      "response": {
+        "dataHora": "2026-10-23T12:54:51.7298532",
+        "status": 400,
+        "erro": "Bad Request",
+        "mensagem": "A altura da vegetacao deve ser um numero valido.",
+        "caminho": "/api/trechos",
+        "detalhes": []
+      }
+    },
+    {
+      "name": "precisao KM",
+      "status": 400,
+      "response": {
+        "dataHora": "2026-10-23T12:54:51.7566455",
+        "status": 400,
+        "erro": "Bad Request",
+        "mensagem": "O KM inicial deve ter no maximo duas casas decimais.",
+        "caminho": "/api/trechos",
+        "detalhes": []
+      }
+    },
+    {
+      "name": "altura fora NUMBER(10,2)",
+      "status": 400,
+      "response": {
+        "dataHora": "2026-10-23T12:54:51.7583941",
+        "status": 400,
+        "erro": "Bad Request",
+        "mensagem": "A altura da vegetacao deve ser no maximo 99999999.99.",
+        "caminho": "/api/trechos",
+        "detalhes": []
+      }
+    },
+    {
+      "name": "integrantes fora NUMBER(3)",
+      "status": 400,
+      "response": {
+        "dataHora": "2026-10-23T12:54:51.774359",
+        "status": 400,
+        "erro": "Bad Request",
+        "mensagem": "Dados invalidos na requisicao.",
+        "caminho": "/api/equipes",
+        "detalhes": [
+          "quantidadeIntegrantes: A equipe deve ter no maximo 999 integrantes."
+        ]
+      }
+    },
+    {
+      "name": "filtro NaN",
+      "status": 400,
+      "response": {
+        "dataHora": "2026-10-23T12:54:51.7903566",
+        "status": 400,
+        "erro": "Bad Request",
+        "mensagem": "A altura minima deve ser um numero valido.",
+        "caminho": "/api/trechos",
+        "detalhes": []
+      }
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+<!doctype html><html lang="pt-BR"><meta charset="utf-8"><title>02 - Criar trecho urgente</title><style>
+body{margin:0;background:#edf2f7;color:#162033;font:16px Arial,sans-serif}main{margin:30px auto;padding:30px;width:1080px;background:white;border:1px solid #ccd5e0;border-radius:12px}h1{font-size:27px;margin:12px 0}h2{font-size:18px}.tag{color:#21614e;font-weight:bold}.meta{color:#58657b;font-size:14px}.url{background:#152539;color:white;padding:18px;border-radius:6px;font-family:Consolas,monospace;overflow-wrap:anywhere}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:14px/1.45 Consolas,monospace;background:#f5f7fa;padding:16px;border-radius:6px}.status{font-size:22px;font-weight:bold;color:#21614e;margin-top:20px}footer{margin-top:25px;color:#58657b;font-size:13px}</style><main>
+<div class="tag">MOTIVA · SPRINT 4 · ORACLE FIAP</div><h1>02 - Criar trecho urgente</h1><p class="meta">Execucao real: 2026-10-23T12:51:32.647000-03:00 · Newman · 75 ms</p>
+<div class="url">POST http://localhost:18084/api/trechos</div><h2>Corpo enviado</h2><pre>{
+  &quot;kmInicial&quot;: 90,
+  &quot;kmFinal&quot;: 91,
+  &quot;alturaVegetacaoCm&quot;: 85,
+  &quot;tipoAmbiente&quot;: &quot;umido&quot;,
+  &quot;riscoOperacional&quot;: &quot;alto&quot;,
+  &quot;equipeId&quot;: 3
+}</pre>
+<div class="status">HTTP 201 Created</div><pre>Location: http://localhost:18084/api/trechos/5
+Content-Type: application/json
+Date: Fri, 23 Oct 2026 15:51:33 GMT</pre>
+<h2>Resposta recebida</h2><pre>{
+  &quot;id&quot;: 5,
+  &quot;kmInicial&quot;: 90.0,
+  &quot;kmFinal&quot;: 91.0,
+  &quot;descricaoKm&quot;: &quot;KM 90.0 ao KM 91.0&quot;,
+  &quot;alturaVegetacaoCm&quot;: 85.0,
+  &quot;tipoAmbiente&quot;: &quot;umido&quot;,
+  &quot;riscoOperacional&quot;: &quot;alto&quot;,
+  &quot;equipeId&quot;: 3,
+  &quot;equipeNome&quot;: &quot;Equipe Gama&quot;
+}</pre>
+<footer>Captura do registro HTTP exportado pelo Newman. Nao e a interface do Postman. Origem: registro-oracle.json.<br>API Spring Boot conectada ao Oracle FIAP; nenhum dado de resposta foi simulado.</footer></main></html>

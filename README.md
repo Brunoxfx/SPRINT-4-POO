@@ -359,6 +359,10 @@ Exemplo de resposta do `POST /api/relatorios`:
 
 Os prints das requisições executadas contra o Oracle FIAP ficam em [`docs/prints/`](docs/prints/).
 
+Validação em 23/10/2026: **43 requisições e 62 verificações passaram no Oracle FIAP**, com dez prints e
+registro HTTP completo. O relatório também foi consultado após reiniciar a API, confirmando a persistência.
+Veja os [resultados e as evidências da validação Oracle](docs/validacao-oracle.md).
+
 O arquivo [`docs/validacao-local-h2.md`](docs/validacao-local-h2.md) traz o registro completo de 15 requisições
 (CRUD, filtros, relatório, histórico, período e erros 400/404) executadas com cURL durante a validação local.
 

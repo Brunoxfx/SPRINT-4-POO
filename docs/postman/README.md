@@ -73,4 +73,6 @@ Em 23/10/2026, Newman 6 executou esta colecao contra a API H2 na porta 18084:
 Os 19 pares metodo/rota da tabela de endpoints foram exercitados, incluindo as variantes de filtro.
 O processo Spring foi iniciado com Java 17 e `mvn -o spring-boot:run`, usando o classpath de testes
 e `src/test/resources/application.properties`. Nenhuma configuracao de producao foi alterada.
-Importacao visual no aplicativo Postman e execucao no Oracle pertencem a T4; nao sao comprovadas por testes H2.
+Na T4, em 23/10/2026, a mesma colecao passou contra Oracle FIAP: **43 requisicoes, 62 assercoes, zero falhas**.
+O relatorio persistiu apos reiniciar a API. Veja [evidencias e prints](../validacao-oracle.md).
+A importacao visual no aplicativo Postman nao foi executada; o formato foi lido e executado pelo Newman.
