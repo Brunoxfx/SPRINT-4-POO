@@ -1,0 +1,1074 @@
+{
+  "info": {
+    "name": "MOTIVA - Sprint 4 - Demonstracao REST",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Execute em ordem. Cria Equipe Gama e trechos KM 90-91, 92-93, 94-95 e 96-97; ao final remove esses cadastros. Mantem o relatorio no historico. Use um schema de demonstracao sem esses nomes/KMs. IDs sao capturados das respostas. Nenhuma credencial e necessaria na colecao."
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "type": "string"
+    },
+    {
+      "key": "equipeId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "trechoUrgenteId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "trechoCriticoId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "trechoAtencaoId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "trechoNormalId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "intervencaoId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "relatorioId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "dataInicio",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "dataFim",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "01 - Criar equipe",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/equipes",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nome\": \"Equipe Gama\",\n  \"quantidadeIntegrantes\": 5,\n  \"especialidade\": \"Controle preventivo\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 201', function () { pm.response.to.have.status(201); });",
+              "pm.test('Location presente', function () { pm.expect(pm.response.headers.get('Location')).to.be.a('string').and.not.empty; });",
+              "if (pm.response.code === 201) { pm.collectionVariables.set('equipeId', pm.response.json().id); }"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "02 - Criar trecho urgente",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/trechos",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"kmInicial\": 90,\n  \"kmFinal\": 91,\n  \"alturaVegetacaoCm\": 85,\n  \"tipoAmbiente\": \"umido\",\n  \"riscoOperacional\": \"alto\",\n  \"equipeId\": {{equipeId}}\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 201', function () { pm.response.to.have.status(201); });",
+              "pm.test('Location presente', function () { pm.expect(pm.response.headers.get('Location')).to.be.a('string').and.not.empty; });",
+              "if (pm.response.code === 201) { pm.collectionVariables.set('trechoUrgenteId', pm.response.json().id); }"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "03 - Criar trecho critico",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/trechos",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"kmInicial\": 92,\n  \"kmFinal\": 93,\n  \"alturaVegetacaoCm\": 85,\n  \"tipoAmbiente\": \"umido\",\n  \"riscoOperacional\": \"baixo\",\n  \"equipeId\": {{equipeId}}\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 201', function () { pm.response.to.have.status(201); });",
+              "pm.test('Location presente', function () { pm.expect(pm.response.headers.get('Location')).to.be.a('string').and.not.empty; });",
+              "if (pm.response.code === 201) { pm.collectionVariables.set('trechoCriticoId', pm.response.json().id); }"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "04 - Criar trecho atencao",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/trechos",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"kmInicial\": 94,\n  \"kmFinal\": 95,\n  \"alturaVegetacaoCm\": 45,\n  \"tipoAmbiente\": \"umido\",\n  \"riscoOperacional\": \"baixo\",\n  \"equipeId\": {{equipeId}}\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 201', function () { pm.response.to.have.status(201); });",
+              "pm.test('Location presente', function () { pm.expect(pm.response.headers.get('Location')).to.be.a('string').and.not.empty; });",
+              "if (pm.response.code === 201) { pm.collectionVariables.set('trechoAtencaoId', pm.response.json().id); }"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "05 - Criar trecho normal",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/trechos",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"kmInicial\": 96,\n  \"kmFinal\": 97,\n  \"alturaVegetacaoCm\": 20,\n  \"tipoAmbiente\": \"umido\",\n  \"riscoOperacional\": \"baixo\",\n  \"equipeId\": {{equipeId}}\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 201', function () { pm.response.to.have.status(201); });",
+              "pm.test('Location presente', function () { pm.expect(pm.response.headers.get('Location')).to.be.a('string').and.not.empty; });",
+              "if (pm.response.code === 201) { pm.collectionVariables.set('trechoNormalId', pm.response.json().id); }"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "06 - Listar equipes",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/equipes"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', function () { pm.response.to.have.status(200); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "07 - Buscar equipe",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/equipes/{{equipeId}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', function () { pm.response.to.have.status(200); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "08 - Filtrar equipes",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/equipes?especialidade=Controle"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', function () { pm.response.to.have.status(200); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "09 - Listar trechos",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/trechos"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', function () { pm.response.to.have.status(200); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "10 - Buscar trecho",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/trechos/{{trechoUrgenteId}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', function () { pm.response.to.have.status(200); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "11 - Filtrar trechos alturaMinima=80",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/trechos?alturaMinima=80"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', function () { pm.response.to.have.status(200); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "12 - Filtrar trechos risco=alto",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/trechos?risco=alto"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', function () { pm.response.to.have.status(200); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "13 - Filtrar trechos ambiente=umido",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/trechos?ambiente=umido"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', function () { pm.response.to.have.status(200); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "14 - Filtrar trechos equipeId={{equipeId}}",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/trechos?equipeId={{equipeId}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', function () { pm.response.to.have.status(200); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "15 - Atualizar equipe",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/equipes/{{equipeId}}",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nome\": \"Equipe Gama\",\n  \"quantidadeIntegrantes\": 7,\n  \"especialidade\": \"Rocada e controle preventivo\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', function () { pm.response.to.have.status(200); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "16 - Atualizar trecho",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/trechos/{{trechoAtencaoId}}",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"kmInicial\": 94,\n  \"kmFinal\": 95,\n  \"alturaVegetacaoCm\": 45,\n  \"tipoAmbiente\": \"umido\",\n  \"riscoOperacional\": \"baixo\",\n  \"equipeId\": {{equipeId}}\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', function () { pm.response.to.have.status(200); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "17 - Criar intervencao",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/intervencoes",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"tipo\": \"PULVERIZACAO\",\n  \"trechoId\": {{trechoAtencaoId}},\n  \"equipeId\": {{equipeId}}\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 201', function () { pm.response.to.have.status(201); });",
+              "pm.test('Location presente', function () { pm.expect(pm.response.headers.get('Location')).to.be.a('string').and.not.empty; });",
+              "if (pm.response.code === 201) { pm.collectionVariables.set('intervencaoId', pm.response.json().id); }"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "18 - Listar intervencoes",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/intervencoes"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', function () { pm.response.to.have.status(200); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "19 - Buscar intervencao",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/intervencoes/{{intervencaoId}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', function () { pm.response.to.have.status(200); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "20 - Filtrar intervencoes tipo=PULVERIZACAO",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/intervencoes?tipo=PULVERIZACAO"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', function () { pm.response.to.have.status(200); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "21 - Filtrar intervencoes trechoId={{trechoAtencaoId}}",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/intervencoes?trechoId={{trechoAtencaoId}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', function () { pm.response.to.have.status(200); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "22 - Filtrar intervencoes equipeId={{equipeId}}",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/intervencoes?equipeId={{equipeId}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', function () { pm.response.to.have.status(200); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "23 - Atualizar intervencao",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/intervencoes/{{intervencaoId}}",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"tipo\": \"ROCADA_MECANIZADA\",\n  \"trechoId\": {{trechoAtencaoId}},\n  \"equipeId\": {{equipeId}}\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', function () { pm.response.to.have.status(200); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "24 - Gerar relatorio",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": "{{baseUrl}}/api/relatorios"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 201', function () { pm.response.to.have.status(201); });",
+              "pm.test('Location presente', function () { pm.expect(pm.response.headers.get('Location')).to.be.a('string').and.not.empty; });",
+              "if (pm.response.code === 201) { pm.collectionVariables.set('relatorioId', pm.response.json().relatorio.id); }",
+              "if (pm.response.code === 201) {",
+              " const json = pm.response.json();",
+              " const casos = {trechoUrgenteId:'URGENTE', trechoCriticoId:'CRITICO', trechoAtencaoId:'ATENCAO', trechoNormalId:'NORMAL'};",
+              " for (const [key, prioridade] of Object.entries(casos)) { pm.test('Prioridade '+prioridade, function () { const item = json.itens.find(i => String(i.trechoId) === String(pm.collectionVariables.get(key))); pm.expect(item).to.be.an('object'); pm.expect(item.prioridade).to.eql(prioridade); }); }",
+              " pm.collectionVariables.set('dataInicio', json.relatorio.dataGeracao.slice(0,10)); pm.collectionVariables.set('dataFim', json.relatorio.dataGeracao.slice(0,10));",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "25 - Listar historico",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/relatorios"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', function () { pm.response.to.have.status(200); });",
+              "pm.test('Historico contem o relatorio criado', function () { pm.expect(pm.response.json().some(r => String(r.id) === String(pm.collectionVariables.get('relatorioId')))).to.eql(true); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "26 - Buscar relatorio",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/relatorios/{{relatorioId}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', function () { pm.response.to.have.status(200); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "27 - Consultar periodo",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/relatorios/periodo?inicio={{dataInicio}}&fim={{dataFim}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', function () { pm.response.to.have.status(200); });",
+              "pm.test('Historico contem o relatorio criado', function () { pm.expect(pm.response.json().some(r => String(r.id) === String(pm.collectionVariables.get('relatorioId')))).to.eql(true); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "28 - Erro 400 equipe invalida",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/equipes",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nome\": \"Equipe Gama\",\n  \"quantidadeIntegrantes\": 0,\n  \"especialidade\": \"Controle preventivo\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 400', function () { pm.response.to.have.status(400); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "29 - Erro 400 altura negativa",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/trechos",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"kmInicial\": 98,\n  \"kmFinal\": 99,\n  \"alturaVegetacaoCm\": -5,\n  \"tipoAmbiente\": \"umido\",\n  \"riscoOperacional\": \"baixo\",\n  \"equipeId\": {{equipeId}}\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 400', function () { pm.response.to.have.status(400); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "30 - Erro 400 intervencao invalida",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/intervencoes",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"tipo\": \"INVALIDO\",\n  \"trechoId\": {{trechoAtencaoId}},\n  \"equipeId\": {{equipeId}}\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 400', function () { pm.response.to.have.status(400); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "31 - Erro 400 periodo invertido",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/relatorios/periodo?inicio=2026-10-31&fim=2026-10-01"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 400', function () { pm.response.to.have.status(400); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "32 - Erro 409 equipe em uso",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": "{{baseUrl}}/api/equipes/{{equipeId}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 409', function () { pm.response.to.have.status(409); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "33 - Erro 409 trecho em uso",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": "{{baseUrl}}/api/trechos/{{trechoAtencaoId}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 409', function () { pm.response.to.have.status(409); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "34 - Excluir intervencao",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": "{{baseUrl}}/api/intervencoes/{{intervencaoId}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 204', function () { pm.response.to.have.status(204); });",
+              "pm.test('Sem corpo', function () { pm.expect(pm.response.text()).to.eql(''); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "35 - Erro 404 intervencao excluida",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/intervencoes/{{intervencaoId}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 404', function () { pm.response.to.have.status(404); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "36 - Excluir trechoUrgenteId",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": "{{baseUrl}}/api/trechos/{{trechoUrgenteId}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 204', function () { pm.response.to.have.status(204); });",
+              "pm.test('Sem corpo', function () { pm.expect(pm.response.text()).to.eql(''); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "37 - Excluir trechoCriticoId",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": "{{baseUrl}}/api/trechos/{{trechoCriticoId}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 204', function () { pm.response.to.have.status(204); });",
+              "pm.test('Sem corpo', function () { pm.expect(pm.response.text()).to.eql(''); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "38 - Excluir trechoAtencaoId",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": "{{baseUrl}}/api/trechos/{{trechoAtencaoId}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 204', function () { pm.response.to.have.status(204); });",
+              "pm.test('Sem corpo', function () { pm.expect(pm.response.text()).to.eql(''); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "39 - Excluir trechoNormalId",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": "{{baseUrl}}/api/trechos/{{trechoNormalId}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 204', function () { pm.response.to.have.status(204); });",
+              "pm.test('Sem corpo', function () { pm.expect(pm.response.text()).to.eql(''); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "40 - Erro 404 trecho excluido",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/trechos/{{trechoUrgenteId}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 404', function () { pm.response.to.have.status(404); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "41 - Excluir equipe",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": "{{baseUrl}}/api/equipes/{{equipeId}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 204', function () { pm.response.to.have.status(204); });",
+              "pm.test('Sem corpo', function () { pm.expect(pm.response.text()).to.eql(''); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "42 - Erro 404 equipe excluida",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/equipes/{{equipeId}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 404', function () { pm.response.to.have.status(404); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "43 - Confirmar historico apos exclusoes",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/relatorios/{{relatorioId}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', function () { pm.response.to.have.status(200); });"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
