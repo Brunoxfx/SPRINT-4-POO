@@ -76,6 +76,8 @@ Mantidos os limiares da Sprint 2/3. A classificação está em `MotorPrioridade`
 |-- src/main/resources/application.properties
 |-- src/test/java/br/com/motiva/
 |-- docs/
+|   |-- prints/                                  # prints das requisicoes no Postman
+|   `-- motiva-sprint4.postman_collection.json   # colecao para importar no Postman
 |-- bd_motiva_criacao.sql
 |-- bd_motiva_dados.sql
 |-- bd_motiva_sequences.sql
@@ -174,7 +176,7 @@ Resultado em 23/10/2026: 67 testes, 0 falhas.
 
 | Método | Rota | Ação | Sucesso | Erros |
 |---|---|---|---|---|
-| GET | `/api/equipes` | Lista todas (filtro opcional `?especialidade=`) | 200 | - |
+| GET | `/api/equipes` | Lista todas (filtro opcional `?especialidade=`) | 200 | nenhum |
 | GET | `/api/equipes/{id}` | Busca por ID | 200 | 404 |
 | POST | `/api/equipes` | Cria | 201 + corpo + `Location` | 400, 409 nome duplicado |
 | PUT | `/api/equipes/{id}` | Atualiza | 200 | 400, 404, 409 |
@@ -209,10 +211,14 @@ o primeiro na ordem em que aparecem na tabela (por exemplo, `?alturaMinima=80&ri
 
 | Método | Rota | Ação | Sucesso | Erros |
 |---|---|---|---|---|
-| POST | `/api/relatorios` | Gera o relatório a partir dos trechos atuais e grava no histórico | 201 + corpo + `Location` | - |
-| GET | `/api/relatorios` | Lista o histórico (mais recente primeiro) | 200 | - |
+| POST | `/api/relatorios` | Gera o relatório a partir dos trechos atuais e grava no histórico | 201 + corpo + `Location` | nenhum |
+| GET | `/api/relatorios` | Lista o histórico (mais recente primeiro) | 200 | nenhum |
 | GET | `/api/relatorios/{id}` | Busca um relatório do histórico | 200 | 404 |
 | GET | `/api/relatorios/periodo?inicio=AAAA-MM-DD&fim=AAAA-MM-DD` | Consulta o histórico por período | 200 | 400 |
+
+Nas rotas marcadas com **nenhum** não há erro de cliente possível: elas não recebem ID nem corpo para validar.
+Uma listagem sem resultados devolve `[]` com 200 (inclusive o filtro `?especialidade=` sem correspondência), e
+`POST /api/relatorios` com o banco sem trechos gera um relatório com todas as quantidades zeradas.
 
 ### Formato dos erros
 
@@ -243,8 +249,9 @@ supor ID 1 num schema reaproveitado) e removem no fim apenas o que criaram, na o
 equipe.
 
 - **Postman (recomendado para os prints):** importe a coleção
-  [`docs/postman/motiva-sprint4.postman_collection.json`](docs/postman/motiva-sprint4.postman_collection.json) e siga
-  o guia [`docs/postman/README.md`](docs/postman/README.md).
+  [`docs/motiva-sprint4.postman_collection.json`](docs/motiva-sprint4.postman_collection.json) (botão **Import**),
+  confira a variável `baseUrl` (`http://localhost:8080`) e envie as requisições de 01 a 43, em ordem. Os IDs criados
+  são guardados automaticamente para as requisições seguintes, e cada uma tem testes que conferem o status esperado.
 - **cURL:** o roteiro abaixo roda no **Git Bash** (Windows), Linux ou macOS. Copie e cole o bloco inteiro, na ordem.
   Ele usa a equipe `Equipe Gama` e os KMs 90-91 e 92-93; se já existirem no seu schema, troque esses valores.
 
@@ -361,7 +368,7 @@ Os prints das requisições executadas contra o Oracle FIAP ficam em [`docs/prin
 
 ### Prints do Postman (Oracle FIAP)
 
-Coleção [`docs/postman/motiva-sprint4.postman_collection.json`](docs/postman/motiva-sprint4.postman_collection.json)
+Coleção [`docs/motiva-sprint4.postman_collection.json`](docs/motiva-sprint4.postman_collection.json)
 executada no aplicativo Postman em 23/10/2026, com a API em `http://localhost:8080` conectada ao Oracle FIAP
 (schema da Sprint 3). As 43 requisições foram enviadas em ordem, todas com os testes da coleção aprovados.
 
@@ -382,12 +389,15 @@ O relatório gerado (ID 5) classificou os 8 trechos do banco em 2 urgentes, 2 cr
 Ao final, as exclusões da coleção devolveram o banco ao estado original da Sprint 3 (2 equipes, 4 trechos e
 3 intervenções); os relatórios permanecem no histórico.
 
-Validação em 23/10/2026: **43 requisições e 62 verificações passaram no Oracle FIAP**, com dez prints e
-registro HTTP completo. O relatório também foi consultado após reiniciar a API, confirmando a persistência.
-Veja os [resultados e as evidências da validação Oracle](docs/validacao-oracle.md).
+### Validação no Oracle FIAP
 
-O arquivo [`docs/validacao-local-h2.md`](docs/validacao-local-h2.md) traz o registro completo de 15 requisições
-(CRUD, filtros, relatório, histórico, período e erros 400/404) executadas com cURL durante a validação local.
+- As sequences de `bd_motiva_sequences.sql` foram criadas no schema da Sprint 3 sem recriar tabelas nem apagar
+  dados (`ddl-auto=none`).
+- A coleção passou nas **43 requisições e 62 verificações automáticas**, incluindo respostas 200, 201, 204, 400,
+  404 e 409.
+- Os limites numéricos das colunas Oracle foram confirmados: altura `NaN`, KM com três casas decimais, altura
+  acima de `NUMBER(10,2)` e equipe com 1000 integrantes retornam 400.
+- Um relatório gerado continuou disponível depois de encerrar e reiniciar a API, confirmando a persistência.
 
 ## Perguntas de reflexão
 
