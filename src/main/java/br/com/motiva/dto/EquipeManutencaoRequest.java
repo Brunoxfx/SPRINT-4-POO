@@ -1,5 +1,6 @@
 package br.com.motiva.dto;
 
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -12,6 +13,7 @@ public record EquipeManutencaoRequest(
 
         @NotNull(message = "A quantidade de integrantes deve ser informada.")
         @Positive(message = "A equipe deve ter pelo menos um integrante.")
+        @Max(value = 999, message = "A equipe deve ter no maximo 999 integrantes.")
         Integer quantidadeIntegrantes,
 
         @NotBlank(message = "A especialidade deve ser informada.")

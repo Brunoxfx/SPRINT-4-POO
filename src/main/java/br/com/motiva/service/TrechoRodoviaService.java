@@ -1,5 +1,6 @@
 package br.com.motiva.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Locale;
 
@@ -18,6 +19,9 @@ import br.com.motiva.repository.TrechoRodoviaRepository;
 
 @Service
 public class TrechoRodoviaService {
+    public static final double VALOR_MAXIMO_COLUNA = 99999999.99;
+    public static final int CASAS_DECIMAIS_COLUNA = 2;
+
     private final TrechoRodoviaRepository trechoRepository;
     private final EquipeManutencaoRepository equipeRepository;
     private final IntervencaoOperacionalRepository intervencaoRepository;
@@ -36,7 +40,10 @@ public class TrechoRodoviaService {
 
     @Transactional(readOnly = true)
     public List<TrechoRodovia> listarPorAlturaMinima(Double alturaMinima) {
-        if (alturaMinima == null || alturaMinima < 0) {
+        if (alturaMinima == null || !Double.isFinite(alturaMinima)) {
+            throw new RegraNegocioException("A altura minima deve ser um numero valido.");
+        }
+        if (alturaMinima < 0) {
             throw new RegraNegocioException("A altura minima nao pode ser negativa.");
         }
         return this.trechoRepository.findByAlturaVegetacaoCmGreaterThanEqual(alturaMinima);
@@ -119,7 +126,12 @@ public class TrechoRodoviaService {
         if (kmInicial == null || kmInicial < 0) {
             throw new RegraNegocioException("O KM inicial nao pode ser negativo.");
         }
-        if (kmFinal == null || kmFinal <= kmInicial) {
+        this.validarNumeroColuna(kmInicial, "O KM inicial");
+        if (kmFinal == null) {
+            throw new RegraNegocioException("O KM final deve ser maior que o KM inicial.");
+        }
+        this.validarNumeroColuna(kmFinal, "O KM final");
+        if (kmFinal <= kmInicial) {
             throw new RegraNegocioException("O KM final deve ser maior que o KM inicial.");
         }
     }
@@ -127,6 +139,20 @@ public class TrechoRodoviaService {
     private void validarAltura(Double alturaVegetacaoCm) {
         if (alturaVegetacaoCm == null || alturaVegetacaoCm < 0) {
             throw new RegraNegocioException("A altura da vegetacao nao pode ser negativa.");
+        }
+        this.validarNumeroColuna(alturaVegetacaoCm, "A altura da vegetacao");
+    }
+
+    // KM_INICIAL, KM_FINAL e ALTURA_VEGETACAO_CM sao NUMBER(10, 2) no Oracle da Sprint 3
+    private void validarNumeroColuna(Double valor, String campo) {
+        if (!Double.isFinite(valor)) {
+            throw new RegraNegocioException(campo + " deve ser um numero valido.");
+        }
+        if (valor > VALOR_MAXIMO_COLUNA) {
+            throw new RegraNegocioException(campo + " deve ser no maximo 99999999.99.");
+        }
+        if (BigDecimal.valueOf(valor).stripTrailingZeros().scale() > CASAS_DECIMAIS_COLUNA) {
+            throw new RegraNegocioException(campo + " deve ter no maximo duas casas decimais.");
         }
     }
 

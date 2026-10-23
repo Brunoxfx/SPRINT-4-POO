@@ -179,6 +179,24 @@ class EquipeManutencaoControllerTest {
                         .value("Especialidade Filtro Alfa"));
     }
 
+    @Test
+    void deveRetornar400QuandoQuantidadeUltrapassarLimiteDaColuna() throws Exception {
+        String json = """
+                {
+                  "nome": "Equipe Limite Teste",
+                  "quantidadeIntegrantes": 1000,
+                  "especialidade": "Rocada"
+                }
+                """;
+
+        this.mockMvc.perform(MockMvcRequestBuilders.post(URL_EQUIPES)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.detalhes").value(Matchers.hasItem(
+                        "quantidadeIntegrantes: A equipe deve ter no maximo 999 integrantes.")));
+    }
+
     private Long criarEquipe(String nome, int quantidadeIntegrantes, String especialidade) throws Exception {
         String json = """
                 {

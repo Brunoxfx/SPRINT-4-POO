@@ -16,6 +16,9 @@ import br.com.motiva.repository.TrechoRodoviaRepository;
 
 @Service
 public class EquipeManutencaoService {
+    public static final int QUANTIDADE_MAXIMA_INTEGRANTES = 999;
+    public static final int TAMANHO_MAXIMO_TEXTO = 100;
+
     private final EquipeManutencaoRepository equipeRepository;
     private final TrechoRodoviaRepository trechoRepository;
     private final IntervencaoOperacionalRepository intervencaoRepository;
@@ -45,28 +48,28 @@ public class EquipeManutencaoService {
     }
 
     @Transactional
-    public EquipeManutencao cadastrar(EquipeManutencaoRequest request) {
-        this.validar(request);
-        String nome = request.nome().trim();
+    public EquipeManutencao cadastrar(EquipeManutencaoRequest requisicao) {
+        this.validar(requisicao);
+        String nome = requisicao.nome().trim();
         if (this.equipeRepository.existsByNomeIgnoreCase(nome)) {
             throw new ConflitoException("Ja existe uma equipe de manutencao com o nome " + nome + ".");
         }
-        EquipeManutencao equipe = new EquipeManutencao(nome, request.quantidadeIntegrantes(),
-                request.especialidade().trim());
+        EquipeManutencao equipe = new EquipeManutencao(nome, requisicao.quantidadeIntegrantes(),
+                requisicao.especialidade().trim());
         return this.equipeRepository.save(equipe);
     }
 
     @Transactional
-    public EquipeManutencao atualizar(Long id, EquipeManutencaoRequest request) {
+    public EquipeManutencao atualizar(Long id, EquipeManutencaoRequest requisicao) {
         EquipeManutencao equipe = this.buscarPorId(id);
-        this.validar(request);
-        String nome = request.nome().trim();
+        this.validar(requisicao);
+        String nome = requisicao.nome().trim();
         if (this.equipeRepository.existsByNomeIgnoreCaseAndIdNot(nome, id)) {
             throw new ConflitoException("Ja existe uma equipe de manutencao com o nome " + nome + ".");
         }
         equipe.setNome(nome);
-        equipe.setQuantidadeIntegrantes(request.quantidadeIntegrantes());
-        equipe.setEspecialidade(request.especialidade().trim());
+        equipe.setQuantidadeIntegrantes(requisicao.quantidadeIntegrantes());
+        equipe.setEspecialidade(requisicao.especialidade().trim());
         return this.equipeRepository.save(equipe);
     }
 
@@ -84,15 +87,25 @@ public class EquipeManutencaoService {
         this.equipeRepository.delete(equipe);
     }
 
-    private void validar(EquipeManutencaoRequest request) {
-        if (request.nome() == null || request.nome().trim().isEmpty()) {
+    // Limites das colunas NOME e ESPECIALIDADE VARCHAR2(100) e QUANTIDADE_INTEGRANTES NUMBER(3) da Sprint 3
+    private void validar(EquipeManutencaoRequest requisicao) {
+        if (requisicao.nome() == null || requisicao.nome().trim().isEmpty()) {
             throw new RegraNegocioException("O nome da equipe deve ser informado.");
         }
-        if (request.quantidadeIntegrantes() == null || request.quantidadeIntegrantes() <= 0) {
+        if (requisicao.nome().trim().length() > TAMANHO_MAXIMO_TEXTO) {
+            throw new RegraNegocioException("O nome da equipe deve ter no maximo 100 caracteres.");
+        }
+        if (requisicao.quantidadeIntegrantes() == null || requisicao.quantidadeIntegrantes() <= 0) {
             throw new RegraNegocioException("A equipe deve ter pelo menos um integrante.");
         }
-        if (request.especialidade() == null || request.especialidade().trim().isEmpty()) {
+        if (requisicao.quantidadeIntegrantes() > QUANTIDADE_MAXIMA_INTEGRANTES) {
+            throw new RegraNegocioException("A equipe deve ter no maximo 999 integrantes.");
+        }
+        if (requisicao.especialidade() == null || requisicao.especialidade().trim().isEmpty()) {
             throw new RegraNegocioException("A especialidade deve ser informada.");
+        }
+        if (requisicao.especialidade().trim().length() > TAMANHO_MAXIMO_TEXTO) {
+            throw new RegraNegocioException("A especialidade deve ter no maximo 100 caracteres.");
         }
     }
 }

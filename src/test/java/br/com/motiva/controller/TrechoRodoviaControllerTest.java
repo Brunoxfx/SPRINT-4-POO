@@ -242,6 +242,46 @@ class TrechoRodoviaControllerTest {
                 .andExpect(jsonPath("$[*].kmInicial", not(hasItem(620.0))));
     }
 
+    @Test
+    void deveRetornar400QuandoAlturaNaoForNumeroValido() throws Exception {
+        String json = """
+                {
+                  "kmInicial": 630.0,
+                  "kmFinal": 631.0,
+                  "alturaVegetacaoCm": "NaN",
+                  "tipoAmbiente": "seco",
+                  "riscoOperacional": "baixo"
+                }
+                """;
+
+        this.mockMvc.perform(post(URL).contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.mensagem").value("A altura da vegetacao deve ser um numero valido."));
+    }
+
+    @Test
+    void deveRetornar400QuandoKmTiverMaisDeDuasCasasDecimais() throws Exception {
+        this.mockMvc.perform(post(URL).contentType(MediaType.APPLICATION_JSON)
+                .content(this.montarJson(10.001, 10.002, 50.0)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.mensagem").value("O KM inicial deve ter no maximo duas casas decimais."));
+    }
+
+    @Test
+    void deveRetornar400QuandoAlturaUltrapassarLimiteDaColuna() throws Exception {
+        this.mockMvc.perform(post(URL).contentType(MediaType.APPLICATION_JSON)
+                .content(this.montarJson(632.0, 633.0, 100000000.0)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.mensagem").value("A altura da vegetacao deve ser no maximo 99999999.99."));
+    }
+
+    @Test
+    void deveRetornar400AoFiltrarComAlturaMinimaInvalida() throws Exception {
+        this.mockMvc.perform(get(URL).param("alturaMinima", "NaN"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.mensagem").value("A altura minima deve ser um numero valido."));
+    }
+
     private Long cadastrarTrecho(Double kmInicial, Double kmFinal, Double altura) throws Exception {
         MvcResult resultado = this.mockMvc.perform(post(URL).contentType(MediaType.APPLICATION_JSON)
                 .content(this.montarJson(kmInicial, kmFinal, altura)))
