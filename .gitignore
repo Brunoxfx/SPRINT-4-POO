@@ -1,0 +1,11 @@
+target/
+out/
+.idea/
+*.iml
+.vscode/
+.settings/
+.project
+.classpath
+*.class
+.env
+*.log
