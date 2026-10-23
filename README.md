@@ -160,13 +160,13 @@ precisam do banco da FIAP.
 
 | Classe de teste | Cenários |
 |---|---|
-| `EquipeManutencaoControllerTest` | 11 |
-| `TrechoRodoviaControllerTest` | 16 |
+| `EquipeManutencaoControllerTest` | 12 |
+| `TrechoRodoviaControllerTest` | 20 |
 | `IntervencaoOperacionalControllerTest` | 15 |
 | `RelatorioPrioridadeControllerTest` | 9 |
 | `MotorPrioridadeTest` | 11 |
 
-Resultado em 23/10/2026: 62 testes, 0 falhas.
+Resultado em 23/10/2026: 67 testes, 0 falhas.
 
 ## Endpoints
 
@@ -202,6 +202,9 @@ Resultado em 23/10/2026: 62 testes, 0 falhas.
 
 Tipos aceitos: `ROCADA_MANUAL`, `ROCADA_MECANIZADA`, `PULVERIZACAO`.
 
+Os filtros dos `GET` de trechos e intervenções são usados **um por vez**. Se mais de um for informado, vale apenas
+o primeiro na ordem em que aparecem na tabela (por exemplo, `?alturaMinima=80&risco=alto` filtra só pela altura).
+
 ### Relatórios de prioridade - `/api/relatorios`
 
 | Método | Rota | Ação | Sucesso | Erros |
@@ -235,40 +238,92 @@ Tipos aceitos: `ROCADA_MANUAL`, `ROCADA_MECANIZADA`, `PULVERIZACAO`.
 
 ## Exemplos cURL
 
-No PowerShell, use `curl.exe` (o `curl` do PowerShell é um alias de `Invoke-WebRequest`).
+Há duas formas de demonstrar a API. As duas criam os próprios registros, usam os IDs devolvidos pela API (nada de
+supor ID 1 num schema reaproveitado) e removem no fim apenas o que criaram, na ordem intervenção -> trechos ->
+equipe.
+
+- **Postman (recomendado para os prints):** importe a coleção
+  [`docs/postman/motiva-sprint4.postman_collection.json`](docs/postman/motiva-sprint4.postman_collection.json) e siga
+  o guia [`docs/postman/README.md`](docs/postman/README.md).
+- **cURL:** o roteiro abaixo roda no **Git Bash** (Windows), Linux ou macOS. Copie e cole o bloco inteiro, na ordem.
+  Ele usa a equipe `Equipe Gama` e os KMs 90-91 e 92-93; se já existirem no seu schema, troque esses valores.
 
 ```bash
-# Equipes
-curl -i -X POST http://localhost:8080/api/equipes -H "Content-Type: application/json" -d "{\"nome\":\"Equipe Gama\",\"quantidadeIntegrantes\":5,\"especialidade\":\"Controle preventivo\"}"
-curl -i http://localhost:8080/api/equipes
-curl -i http://localhost:8080/api/equipes/1
-curl -i -X PUT http://localhost:8080/api/equipes/1 -H "Content-Type: application/json" -d "{\"nome\":\"Equipe Gama\",\"quantidadeIntegrantes\":7,\"especialidade\":\"Rocada e controle preventivo\"}"
-curl -i -X DELETE http://localhost:8080/api/equipes/1
+API=http://localhost:8080/api
+JSON='Content-Type: application/json'
 
-# Trechos
-curl -i -X POST http://localhost:8080/api/trechos -H "Content-Type: application/json" -d "{\"kmInicial\":90.0,\"kmFinal\":91.0,\"alturaVegetacaoCm\":85.0,\"tipoAmbiente\":\"umido\",\"riscoOperacional\":\"alto\",\"equipeId\":1}"
-curl -i http://localhost:8080/api/trechos
-curl -i "http://localhost:8080/api/trechos?alturaMinima=80"
-curl -i http://localhost:8080/api/trechos/1
-curl -i -X PUT http://localhost:8080/api/trechos/1 -H "Content-Type: application/json" -d "{\"kmInicial\":90.0,\"kmFinal\":91.0,\"alturaVegetacaoCm\":45.0,\"tipoAmbiente\":\"umido\",\"riscoOperacional\":\"baixo\",\"equipeId\":1}"
-curl -i -X DELETE http://localhost:8080/api/trechos/1
+# Mostra a resposta completa (status, headers e corpo) e guarda o id criado em $ID
+post() {
+  RESPOSTA=$(curl -s -i -X POST "$API$1" -H "$JSON" ${2:+-d "$2"})
+  echo "$RESPOSTA"; echo
+  ID=$(echo "$RESPOSTA" | grep -o '"id":[0-9]*' | head -1 | cut -d: -f2)
+}
 
-# Intervencoes
-curl -i -X POST http://localhost:8080/api/intervencoes -H "Content-Type: application/json" -d "{\"tipo\":\"PULVERIZACAO\",\"trechoId\":1,\"equipeId\":1}"
-curl -i http://localhost:8080/api/intervencoes
-curl -i "http://localhost:8080/api/intervencoes?tipo=ROCADA_MANUAL"
-curl -i http://localhost:8080/api/intervencoes/1
-curl -i -X PUT http://localhost:8080/api/intervencoes/1 -H "Content-Type: application/json" -d "{\"tipo\":\"ROCADA_MECANIZADA\",\"trechoId\":1,\"equipeId\":1}"
-curl -i -X DELETE http://localhost:8080/api/intervencoes/1
+# 1. Equipes
+post /equipes '{"nome":"Equipe Gama","quantidadeIntegrantes":5,"especialidade":"Controle preventivo"}'
+EQUIPE_ID=$ID
+curl -si "$API/equipes"
+curl -si "$API/equipes/$EQUIPE_ID"
+curl -si "$API/equipes?especialidade=preventivo"
+curl -si -X PUT "$API/equipes/$EQUIPE_ID" -H "$JSON" \
+  -d '{"nome":"Equipe Gama","quantidadeIntegrantes":7,"especialidade":"Rocada e controle preventivo"}'
 
-# Relatorios
-curl -i -X POST http://localhost:8080/api/relatorios
-curl -i http://localhost:8080/api/relatorios
-curl -i "http://localhost:8080/api/relatorios/periodo?inicio=2026-10-01&fim=2026-10-31"
+# 2. Trechos (um URGENTE e um ATENCAO)
+post /trechos '{"kmInicial":90.0,"kmFinal":91.0,"alturaVegetacaoCm":85.0,"tipoAmbiente":"umido","riscoOperacional":"alto","equipeId":'"$EQUIPE_ID"'}'
+TRECHO_URGENTE_ID=$ID
+post /trechos '{"kmInicial":92.0,"kmFinal":93.0,"alturaVegetacaoCm":55.0,"tipoAmbiente":"seco","riscoOperacional":"baixo"}'
+TRECHO_ATENCAO_ID=$ID
+curl -si "$API/trechos"
+curl -si "$API/trechos/$TRECHO_URGENTE_ID"
+curl -si "$API/trechos?alturaMinima=80"
+curl -si -X PUT "$API/trechos/$TRECHO_ATENCAO_ID" -H "$JSON" \
+  -d '{"kmInicial":92.0,"kmFinal":93.0,"alturaVegetacaoCm":60.0,"tipoAmbiente":"seco","riscoOperacional":"baixo","equipeId":'"$EQUIPE_ID"'}'
 
-# Erros esperados
-curl -i http://localhost:8080/api/trechos/999
-curl -i -X POST http://localhost:8080/api/trechos -H "Content-Type: application/json" -d "{\"kmInicial\":10.0,\"kmFinal\":11.0,\"alturaVegetacaoCm\":-5.0,\"tipoAmbiente\":\"seco\",\"riscoOperacional\":\"baixo\"}"
+# 3. Intervencoes
+post /intervencoes '{"tipo":"ROCADA_MANUAL","trechoId":'"$TRECHO_URGENTE_ID"',"equipeId":'"$EQUIPE_ID"'}'
+INTERVENCAO_ID=$ID
+curl -si "$API/intervencoes"
+curl -si "$API/intervencoes/$INTERVENCAO_ID"
+curl -si "$API/intervencoes?tipo=ROCADA_MANUAL"
+curl -si -X PUT "$API/intervencoes/$INTERVENCAO_ID" -H "$JSON" \
+  -d '{"tipo":"ROCADA_MECANIZADA","trechoId":'"$TRECHO_URGENTE_ID"',"equipeId":'"$EQUIPE_ID"'}'
+
+# 4. Relatorios
+post /relatorios
+RELATORIO_ID=$ID
+curl -si "$API/relatorios"
+curl -si "$API/relatorios/$RELATORIO_ID"
+HOJE=$(date +%F)
+curl -si "$API/relatorios/periodo?inicio=$HOJE&fim=$HOJE"
+
+# 5. Erros esperados
+curl -si "$API/trechos/999999"                                  # 404
+curl -si -X POST "$API/trechos" -H "$JSON" \
+  -d '{"kmInicial":94.0,"kmFinal":95.0,"alturaVegetacaoCm":-5.0,"tipoAmbiente":"seco","riscoOperacional":"baixo"}'  # 400
+curl -si -X DELETE "$API/trechos/$TRECHO_URGENTE_ID"            # 409: o trecho tem intervencao
+
+# 6. Limpeza (intervencao -> trechos -> equipe)
+curl -si -X DELETE "$API/intervencoes/$INTERVENCAO_ID"          # 204
+curl -si -X DELETE "$API/trechos/$TRECHO_URGENTE_ID"            # 204
+curl -si -X DELETE "$API/trechos/$TRECHO_ATENCAO_ID"            # 204
+curl -si -X DELETE "$API/equipes/$EQUIPE_ID"                    # 204
+curl -si "$API/equipes/$EQUIPE_ID"                              # 404
+```
+
+No PowerShell, o `curl` é um alias de `Invoke-WebRequest` e o escape de aspas é diferente. Nesse caso, use o Postman
+ou o `Invoke-RestMethod`, que já devolve o JSON como objeto:
+
+```powershell
+$api = "http://localhost:8080/api"
+$equipe = Invoke-RestMethod -Method Post -Uri "$api/equipes" -ContentType "application/json" `
+    -Body (@{ nome = "Equipe Gama"; quantidadeIntegrantes = 5; especialidade = "Controle preventivo" } | ConvertTo-Json)
+$trecho = Invoke-RestMethod -Method Post -Uri "$api/trechos" -ContentType "application/json" `
+    -Body (@{ kmInicial = 90.0; kmFinal = 91.0; alturaVegetacaoCm = 85.0; tipoAmbiente = "umido";
+              riscoOperacional = "alto"; equipeId = $equipe.id } | ConvertTo-Json)
+Invoke-RestMethod -Uri "$api/trechos/$($trecho.id)"
+Invoke-RestMethod -Method Post -Uri "$api/relatorios" | ConvertTo-Json -Depth 5
+Invoke-RestMethod -Method Delete -Uri "$api/trechos/$($trecho.id)"
+Invoke-RestMethod -Method Delete -Uri "$api/equipes/$($equipe.id)"
 ```
 
 Exemplo de resposta do `POST /api/relatorios`:
